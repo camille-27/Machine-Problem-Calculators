@@ -1,0 +1,514 @@
+<!DOCTYPE html>     
+    <html lang = "en">  
+        <head>
+            <title> Numerical Analysis: Machine Problem 3</title>  
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/11.8.0/math.js"></script>
+
+            <style>
+                body{
+                    background-image: url(https://img.freepik.com/free-vector/white-abstract-background_23-2148810113.jpg?w=826&t=st=1681627848~exp=1681628448~hmac=f3de1d89b2e0a73696320a6f6d8b3c5081e275985ca919971cc3748123e030b1);
+                    background-repeat: no-repeat;
+                    background-size: 100%;
+                    background-attachment: fixed;
+                    color: #343434;
+                    text-align: center;
+                    font-size: 14pt;
+                    font-family: 'Source Sans Pro', sans-serif;
+                }
+
+                h1{
+                    font-size: 45pt;
+                    font-family: 'Montserrat', sans-serif;
+                    letter-spacing: 2px;
+                }
+                h2{
+                    font-size: 36pt;
+                    color: #36454F;
+                }
+
+                a{
+                    font-style: italic;
+                    font-size: small;
+                    color: #A95C68;
+                    padding-bottom: 5%;
+                }
+
+                a:hover{
+                    color: #673147;
+                }
+                .boxpts, .boxpts2{
+                    background-color: whitesmoke;
+                    border-radius: 17px;
+                    width: fit-content;
+                    padding: 50px;
+                    padding-top: 10px;
+                    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+                    margin: auto;
+                    margin-top: 3%;
+
+                }
+
+                table, th, td {
+                    border: 2px solid #343434;
+                    border-collapse: collapse;
+                    padding: 10px;
+
+                }
+
+                table{
+                    display:inline-table;
+                }
+
+                .month{
+                    text-align: left;
+                }
+
+                .boxinputx{
+                    background-color: whitesmoke;
+                    border-radius: 17px;
+                    width: fit-content;
+                    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+                    padding-top: 10px;
+                    margin: auto;
+                    margin-top: 2%;
+                    padding-left: 50px;
+                    padding-right: 50px;
+                    text-align: left;
+                }
+
+                #inputX, #inputX2, #nPoints, #nPoints2{
+                    width: 300px; 
+                    height: 15px; 
+                    background-color: whitesmoke;
+                    border: 2px solid #343434;
+                    border-radius: 3px;  
+                    padding: 10px; 
+                    margin: 20px;
+                    margin-bottom: 0%;
+                    font-size: medium;
+                    color: #818589;
+                }
+
+                #nPoints{
+                    width: 215px;
+                }
+
+
+                #goBtn2, #clrBtn, #clrBtn2{
+                    margin: 3px;
+                }
+
+                #poly, #poly2, #result, #result2{
+                    width: 300px; 
+                    height: 15px; 
+                    background-color: #343434;
+                    border: 2px solid #343434;
+                    border-radius: 3px;  
+                    padding: 10px; 
+                    margin: 20px;
+                    color: whitesmoke;
+                    font-size: medium;
+                }
+
+                #showPoly, #showPoly2{
+                    width: 150px; 
+                }
+
+                input[type="button"]{
+                    width: 100px; 
+                    height: 30px;
+                    border: 2px solid #673147; 
+                    background-color: #A95C68;
+                    color: #673147;
+                    border-radius: 20px;  
+                    padding: auto;  
+                    font-size: 10pt;
+                    text-align: center;
+                }
+
+                input[type="button"]:hover{
+                    background-color: #673147;
+                    border-color: #673147;
+                    color: #FAA0A0;
+                }
+
+                p{
+                    font-style: italic;
+                    font-size: medium;
+                    color: #899499;
+                    text-align: center;
+                }
+
+            </style>
+        </head>
+
+        <body>
+            <div id = "Part1">
+                <!-- Part 1 -->
+                <h1>PART 1: PREDEFINED FUNCTION</h1>
+                <h2>Lagrange Interpolating Polynomial</h2>
+
+                <!-- Display the default points and the link where it came from -->
+                <div class="boxpts">
+                    <h2>Default Points</h2>
+                <table id = "table">
+                    <tr>
+                        <th>Month</th>
+                        <th>X,Y Values</th> 
+                    </tr>
+                    <tr>
+                      <td class = "month">January 2022</td>
+                      <td>(1,7.41)</td> 
+                    </tr>
+                    <tr>
+                        <td class = "month">February 2022</td> 
+                        <td>(2,7.5)</td>
+                    </tr>
+                    <tr>
+                        <td class = "month">March 2022</td> 
+                        <td>(3,7.31)</td> 
+                    </tr>
+                    <tr>
+                        <td class = "month">April 2022</td>  
+                        <td>(4,7)</td> 
+                    </tr>
+                    <tr>
+                        <td class = "month">May 2022</td> 
+                        <td>(5,7.1)</td> 
+                    </tr>
+                    <tr>
+                        <td class = "month">June 2022</td> 
+                        <td>(6,6.82)</td> 
+                    </tr>
+                    <tr>
+                        <td class = "month">July 2022</td> 
+                        <td>(7,6.32)</td> 
+                    </tr>
+                    <tr>
+                        <td class = "month">August 2022</td> 
+                        <td>(8,7.28)</td> 
+                    </tr>
+                    
+                </table>
+
+                <table id = "table2">
+                    <tr>
+                      <th>Month</th>
+                      <th>X,Y Values</th> 
+                    </tr>
+                    <tr>
+                        <td class = "month">September 2022</td> 
+                        <td>(9,6.75)</td> 
+                    </tr>
+                    <tr>
+                        <td class = "month">October 2022</td> 
+                        <td>(10,6.99)</td> 
+                    </tr>
+                    <tr>
+                        <td class = "month">November 2022</td> 
+                        <td>(11,6.9)</td> 
+                    </tr>
+                    <tr>
+                        <td class = "month">December 2022</td> 
+                        <td>(12,7.25)</td> 
+                    </tr>
+                    <tr>
+                        <td class = "month">January 2023</td> 
+                        <td>(13,6.84)</td> 
+                    </tr>
+                    <tr>
+                        <td class = "month">February 2023</td> 
+                        <td>(14,9.1)</td> 
+                    </tr>
+                    <tr>
+                        <td class = "month">March 2023</td> 
+                        <td>(15,14.34)</td> 
+                    </tr>
+                    <tr>
+                        <td class = "month">April 2023</td> 
+                        <td>(16,13.02)</td> 
+                    </tr>
+                </table>
+                </div>
+                <a href="https://ph.investing.com/equities/2go-group-historical-data?gl_campaign_id=&gl_creative=-193854280729229082&gl_network=&gl_adgroup_id=&gl_asset_id=%7Badassetid%7D&gl_ad_group_asset_id=%7Badgroupassetid%7D&gl_keyword=&gl_matchtype=b&gl_loc_physical_ms=&utm_source=google&utm_medium=cpc&utm_campaign=18448270485&utm_content=624536373738&utm_term=dsa-1546555491534_&GL_Ad_ID=624536373738&GL_Campaign_ID=18448270485https://ph.investing.com/equities/2go-group-historical-data%3Fgl_campaign_id%3D%26gl_creative%3D-193854280729229082%26gl_network%3D%26gl_adgroup_id%3D%26gl_asset_id%3D%257Badassetid%257D%26gl_ad_group_asset_id%3D%257Badgroupassetid%257D%26gl_keyword%3D%26gl_matchtype%3Db%26gl_loc_physical_ms%3D?utm_source=google&utm_medium=cpc&utm_campaign=18448270485&utm_content=624536373738&utm_term=dsa-1546555491534_&GL_Ad_ID=624536373738&GL_Campaign_ID=18448270485&ISP=1&gclid=Cj0KCQjw3a2iBhCFARIsAD4jQB3X627_oMIyWLOFtCjcYNHOGc9uiwU_78PZ7iccJJVwcc02f-loegEaAo3vEALw_wcB">Click this to see more about the 2GO Stock</a><br>
+
+                <div class="boxinputx">
+                    <!-- Get the number of points from user -->
+                    Number of points
+                    <input type = "text" id = "nPoints"><br><br>
+
+                    <!-- Get the 'x' from the user -->
+                    x-value 
+                    <input type = "text" id = "inputX"><br><br>
+
+                    <!-- This button will show the answer when clicked -->
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type = "button" id = "calcPart1" value = "Calculate" onclick = "calcResults()">
+
+                    <!-- This button will clear all data entered by the user -->  
+                    <input type = "button" id = "clrBtn" value = "Clear" onclick = "location.reload()">
+                    <p>Click the "Clear" button first before entering new value of "n"</p>
+
+                    <!-- Display the result -->
+                    P(x) &nbsp;&nbsp;&nbsp;&nbsp;
+                    <input type = "text" id = "result" disabled><br>
+
+                </div>
+            </div>
+
+            <div id = "Part2">
+                <!-- Part 2 -->
+                <h1>PART 2: USER-DEFINED FUNCTION</h1>
+                <h2>Lagrange Interpolating Polynomial</h2>
+
+                <!-- Get the number of points from user -->
+                Number of points
+                <input type = "text" id = "nPoints2"><br><br>
+
+                <!-- This button will display text fields when clicked (the quantity will be based on the no. of points inputted by the user) -->
+                <input type = "button" id = "goBtn2" value = "Go" onclick = "calcPoints()">
+                
+                <!-- This button will clear all data entered by the user -->  
+                <input type = "button" id = "clrBtn2" value = "Clear" onclick = "location.reload()">
+                <p>Click the "Clear" button first before entering new value of "n"</p>
+
+                <div class="boxpts2" id = "pointsSection">
+                    <!-- Get and display the points from the user -->
+                    <h4>Points</h4>
+                    <p>One point in each box. For example, (1,2).</p>
+                    <p>The x-values must be unique.</p>
+                    <p id = "instruction"></p>
+                </div>
+
+                <div class="boxinputx">
+                    <!-- Get the 'x' from the user -->
+                    x-value
+                    <input type = "text" id = "inputX2">
+
+                    <!-- This button will show the answer when clicked -->
+                    <input type = "button" id = "calcPart2" value = "Calculate" onclick = "calcResults2()"><br>
+                    <!-- Instruction -->
+                    <p>Input 'x' first before clicking the "Calculate" button.</p>
+
+                    <!-- Display the result -->
+                    P(x) &nbsp;&nbsp;&nbsp;&nbsp;
+                    <input type = "text" id = "result2" disabled>
+                </div>
+            </div>
+
+            <script>
+                //PART 1
+                //This will automatically click the 'calculate' button when enter key is pressed
+                var xInt = document.getElementById("inputX");
+                xInt.addEventListener("keypress", function(event) {
+                    if (event.key === "Enter") {
+                        document.getElementById("calcPart1").click();
+                    }
+                });
+
+                function calcResults(){
+                    var nPoints = document.getElementById("nPoints").value; //Get the 'n' from the text field
+                    var inputX = document.getElementById("inputX").value; //Get the 'x' from the text field
+
+                    //Convert x if it is fraction (fraction to decimal)
+                    if(inputX.includes('/')){
+                        var numX =  inputX.split('/')[0];
+                        var convertNumX = Number(numX);
+                        var denX =  inputX.split('/')[1];
+                        var convertDenX = Number(denX);
+                        var cnvrtX = convertNumX / convertDenX;
+                        inputX = cnvrtX;
+                    }
+
+                    //This if-else statement will check if the user has inputted the n & x
+                    if(nPoints != "" && inputX != ""){
+                        var pointsX = []; //Array for x values
+                        var pointsY = []; //Array for y values
+
+                        var tempI = 0;
+                        for(i = 0; i <= nPoints-1;  i++){
+                            //Get the x and y values from the default points
+                            if(i <= 7){
+                                var pts = document.getElementById("table").rows[i+1].cells[1].innerHTML;
+                            }else{
+                                pts = document.getElementById("table2").rows[tempI += 1].cells[1].innerHTML;
+                            }
+                            
+                            var xPoints = pts.split(',')[0];
+                            var xPts = xPoints.split('(')[1];
+                            var x = Number(xPts); //x values
+                            var yPoints = pts.split(',')[1];
+                            var yPts = yPoints.split(')')[0];
+                            var y = Number(yPts); //y values
+
+                            pointsX.push(x); //Store x values in the array 
+                            pointsY.push(y); //Store y values in the array
+                        }
+
+                        var px = ""; 
+                        for(i = 0; i <= nPoints-1; i++){
+                            //Create new array by removing an x value 
+                            const newArr = pointsX.filter(removePts);
+                            function removePts(item){
+                                return item != pointsX[i];
+                            }
+
+                            //CODE FOR Ln
+                            var termLn = ""; 
+
+                            //Solve for the numerator and denominator of all terms (Ln)
+                            for(j = 0; j <= nPoints-2; j++){
+                                if(j < nPoints-2){
+                                    termLn += `( x - ${newArr[j]}) / (${pointsX[i]} - ${newArr[j]}) *`;
+                                }else{
+                                    termLn += `( x - ${newArr[j]}) / (${pointsX[i]} - ${newArr[j]})`;
+                                }
+                            }
+
+                            //Multiply the Ln with y-values (P(x))
+                            if(i < nPoints-1){
+                                px += ` ${termLn} * ${pointsY[i]} + `; 
+                            }else{
+                                px += ` ${termLn} * ${pointsY[i]}`; 
+                            }
+                        }
+
+                        //CODE FOR X-SUBSTITUTION
+                        //If the polynomial has '^', replace it with '**'
+                        if(px.includes("^")){
+                            var newPx = px.replace(/\^/g, '**');
+                        }else{
+                            newPx = px;
+                        }
+
+                        var result = newPx.replace(/x/g, "(" + inputX + ")"); //Replace the 'x' in the polynomial
+                        document.getElementById("result").value = Function("return " + result)(); //Display the result
+
+                    }else{
+                        //Will display if the user don't fill out all input fields
+                        document.getElementById("poly").value = "Make sure to fill out all the input fields"; 
+                        document.getElementById("result").value = "Make sure to fill out all the input fields"; 
+                    }
+                }
+        
+                //PART 2
+                //This will automatically click the 'go' button when enter key is pressed 
+                var nInt = document.getElementById("nPoints2");
+                nInt.addEventListener("keypress", function(event) {
+                    if (event.key === "Enter") {
+                        document.getElementById("goBtn2").click();
+                    }
+                });
+
+                function calcPoints(){
+                    var nPts = document.getElementById("nPoints2").value; //Get the 'n' from the text field
+                    
+                    for(i = 0; i <= nPts-1; i++){
+                        //Create multiple text fields in HTML (according to the 'n')
+                        var element = document.createElement("input"); //Create <input> element
+                        element.type = "text"; //Specify the type of <input> element
+                        element.setAttribute("id", "input" + i); //Set an id to each <input> element 
+                        document.getElementById("pointsSection").appendChild(element); //Append the elements to "pointsSection" div
+                        document.getElementById("input" + i).style.margin = "20px 0px 20px 20px";
+                        document.getElementById("input" + i).style.width = "60px";
+                        document.getElementById("input" + i).style.height = "15px";
+                        document.getElementById("input" + i).style.backgroundColor = "whitesmoke";
+                        document.getElementById("input" + i).style.border = "2px solid #343434";
+                        document.getElementById("input" + i).style.borderRadius = "3px";
+                        document.getElementById("input" + i).style.padding = "10px";
+                        document.getElementById("input" + i).style.fontSize = "medium";
+                        document.getElementById("input" + i).style.color = "#818589";
+                    }
+
+                    //Display additional instruction
+                    document.getElementById("instruction").innerHTML = "After filling out all the text fields, proceed to text field below."
+                }
+                
+                //This will automatically click the 'calculate' button when enter key is pressed 
+                var xInt2 = document.getElementById("inputX2");
+                xInt2.addEventListener("keypress", function(event) {
+                    if (event.key === "Enter") {
+                        document.getElementById("calcPart2").click();
+                    }
+                });
+
+                function calcResults2(){
+                    var nPt = document.getElementById("nPoints2").value; //Get the 'n'from the text field
+                    var inputX2 = document.getElementById("inputX2").value; //Get the 'x'from the text field
+
+                    //Convert x if it is fraction (fraction to decimal)
+                    if(inputX2.includes('/')){
+                        var numX2 =  inputX2.split('/')[0];
+                        var convertNumX2 = Number(numX2);
+                        var denX2 =  inputX2.split('/')[1];
+                        var convertDenX2 = Number(denX2);
+                        var cnvrtX2 = convertNumX2 / convertDenX2;
+                        inputX2 = cnvrtX2;
+                    }
+
+                    //This if-else statement will check if the user has inputted the n & x
+                    if(nPt != "" && inputX2 != ""){
+                        var pointsX2 = []; //Array for x values
+                        var pointsY2 = []; //Array for y values
+
+                        for(i = 0; i <= nPt-1;  i++){
+                            //Get the x and y values from the given points (user's input)
+                            var pts2 = document.getElementById("input" + i).value;
+                            var xPoints2 = pts2.split(',')[0];
+                            var xPts2 = xPoints2.split('(')[1];
+                            var x2 = Number(xPts2); //x values
+                            var yPoints2 = pts2.split(',')[1];
+                            var yPts2 = yPoints2.split(')')[0];
+                            var y2 = Number(yPts2); //y values
+
+                            pointsX2.push(x2); //Store x values in the array 
+                            pointsY2.push(y2); //Store y values in the array
+                        }
+
+                        var px2 = ""; 
+                        for(i = 0; i <= nPt-1; i++){
+                            //Create new array by removing an x value 
+                            const newArr2 = pointsX2.filter(removePts2);
+                            function removePts2(item2){
+                                return item2 != pointsX2[i];
+                            }
+
+                            //CODE FOR Ln
+                            var termLn2 = ""; 
+
+                            //Solve for the numerator and denominator of all terms (Ln)
+                            for(j = 0; j <= nPt-2; j++){
+                                if(j < nPt-2){
+                                    termLn2 += `( x - ${newArr2[j]}) / (${pointsX2[i]} - ${newArr2[j]}) *`;
+                                }else{
+                                    termLn2 += `( x - ${newArr2[j]}) / (${pointsX2[i]} - ${newArr2[j]})`;
+                                }
+                            }
+
+                            //Multiply the Ln with y-values (P(x))
+                            if(i < nPt-1){
+                                px2 += ` ${termLn2} * ${pointsY2[i]} + `; 
+                            }else{
+                                px2 += ` ${termLn2} * ${pointsY2[i]}`; 
+                            }
+                        }
+
+                        //CODE FOR X-SUBSTITUTION
+                        //If the polynomial has '^', replace it with '**'
+                        if(px2.includes("^")){
+                            var newPx2 = px2.replace(/\^/g, '**');
+                        }else{
+                            newPx2 = px2;
+                        }
+
+                        var result2 = newPx2.replace(/x/g, "(" + inputX2 + ")"); //Replace the 'x' in the polynomial
+                        document.getElementById("result2").value = Function("return " + result2)(); //Display the result
+
+                    }else{
+                        //Will display if the user don't fill out all input fields
+                        document.getElementById("poly2").value = "Make sure to fill out all input fields"; 
+                        document.getElementById("result2").value = "Make sure to fill out all input fields"; 
+                    }
+                }
+            </script>
+        </body>
+</html>

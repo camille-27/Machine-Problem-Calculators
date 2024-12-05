@@ -1,0 +1,861 @@
+<!DOCTYPE html>     
+    <html lang = "en">  
+        <head>  
+            <title> Numerical Analysis: Machine Problem 1</title>  
+            <link rel="preconnect" href="https://fonts.googleapis.com"> 
+            <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin> 
+            <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&display=swap" rel="stylesheet">
+            <!--Source sans pro-->
+            <link rel="preconnect" href="https://fonts.googleapis.com"> 
+             <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin> 
+            <link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro&display=swap" rel="stylesheet">
+            <!--Londrina outline-->
+            <link rel="preconnect" href="https://fonts.googleapis.com"> 
+            <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin> 
+            <link href="https://fonts.googleapis.com/css2?family=Londrina+Outline&display=swap" rel="stylesheet">
+            <style>  
+                body {
+                    background-image: url(https://img.freepik.com/free-vector/white-abstract-background_23-2148810113.jpg?w=826&t=st=1681627848~exp=1681628448~hmac=f3de1d89b2e0a73696320a6f6d8b3c5081e275985ca919971cc3748123e030b1);
+                    background-repeat: no-repeat;
+                    background-size: 100%;
+                    background-attachment: fixed;
+                    text-align: center;
+                    font-size: 18pt;
+                    font-family: 'Source Sans Pro', sans-serif;
+                }
+
+                h1 {  
+                    padding: 10px;  
+                    font-size: 45pt;
+                    font-family: 'Montserrat', sans-serif;
+                    letter-spacing: 2px;  
+                    color: #36454F;  
+                }
+
+                .formStyleCalc, .formStyleCalc2
+                {   
+                    display: inline-block; 
+                    border: 3px solid black;  
+                    border-radius: 7px; 
+                    background-color: white;
+                    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+                    width: fit-content;
+                    font-size: 13pt;
+                    padding: 1%;
+                }   
+            
+
+                .formStyleRnC
+                {
+                    margin: auto; 
+                    margin-top: 2%;
+                    font-size: 13pt;
+                    text-align: center;
+                }
+                
+                .calcbutton, .calcbutton2{
+                    width: 52px;  
+                    height: 52px;
+                    background-color: #708090;  
+                    color: white;  
+                    border: 3px solid #36454F;  
+                    border-radius: 20px;  
+                    margin: 2px;  
+                    font-size: 12pt;  
+                }
+
+                #clear:hover, #clear2:hover{
+                    cursor: pointer;
+                    background-color: #E0BFB8;
+                }
+
+                #equal:hover, #equal2:hover{
+                    cursor: pointer;
+                    background-color: #800020;
+                }
+                .calcbutton:hover, .calcbutton2:hover{
+                    cursor: pointer;
+                    background-color: #B6D0E2;
+                }
+  
+                #clear, #clear2{  
+                    width: 52px; 
+                    height: 52px;
+                    border: 3px solid #E0BFB8; 
+                    color: #770737; 
+                    border-radius: 20px;  
+                    padding: 15px;  
+                    margin: 3px;  
+                    font-size: 12pt;  
+                    background-color: #FFF5EE;  
+                } 
+
+                #equal, #equal2
+                {  
+                    width: 52px; 
+                    height: 52px;
+                    border: 3px solid #800020;  
+                    color: white;
+                    border-radius: 20px;  
+                    padding: 15px;  
+                    margin: 3px;  
+                    font-size: 12pt;   
+                    background-color: brown;  
+                } 
+
+                .boxi, .boxj, .boxk{
+                    background-color: whitesmoke;
+                    border-radius: 17px;
+                    width: fit-content;
+                    padding: 50px;
+                    padding-top: 10px;
+                    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+                    margin: auto;
+                    margin-top: 3%;
+                }
+
+                #calc, #approxVal
+                {
+                    width: 200px; 
+                    height: 25px; 
+                    background-color: #F9F6EE;
+                    border: 2px solid #483C32;
+                    color: #483C32;
+                    border-radius: 5px;  
+                    padding: 15px;  
+                    margin: 5px; 
+                    font-size: 14pt; 
+                }
+
+                #numDec{
+                    width: 150px; 
+                    height: 25px; 
+                    background-color: #F9F6EE;
+                    border: 2px solid #483C32;
+                    color: #483C32;
+                    border-radius: 7px;  
+                    padding: 10px;  
+                    margin: 5px;  
+                    font-size: 12pt;
+                }
+  
+                #choppedNum, #roundedNum, #chopabsError, #roundabsError, #choprelError, #roundrelError{  
+                    width: 200px; 
+                    height: 25px;
+                    background-color: #36454F;
+                    border: 2px solid #36454F;
+                    color: white;
+                    border-radius: 7px;  
+                    padding: 10px;  
+                    margin: 5px;  
+                    font-size: 12pt;
+                }
+
+                h4{
+                    color: #800020;
+                    padding: 10px;
+                    font-size: 20pt;
+                }
+
+                #nVal, #xVal, #numDec2{
+                    width: 150px;   
+                    border-radius: 7px;  
+                    padding: 10px;  
+                    background-color: #F9F6EE;
+                    border: 2px solid #483C32;
+                    color: #483C32;
+                    margin: 1%;
+                    font-size: 12pt;
+                }
+
+                .cbutton
+                {
+                    width: 140px; 
+                    height: 52px;
+                    border: 3px solid #800020;  
+                    border-radius: 20px;
+                    color: #800020;
+                    background-color: #F3CFC6;
+                    padding: 10px; 
+                    margin: 10px;
+                    font-size: 12pt;
+                }
+
+                .cbutton:hover{
+                    cursor: pointer;
+                    background-color: #800020;
+                    color: white;
+                }
+
+                h2{
+                    margin-top: 2px;
+                    margin-bottom: 2px;
+                }
+
+                #derive1, #derive2, #macSeries, #macSeries2, #macSeries3{
+                    width: 80%;
+                    height: 30px;
+                    padding: 10px;  
+                    margin: 5px;  
+                    background-color: #36454F;
+                    border: 5px solid #36454F;
+                    border-radius: 7px;
+                    color: white;
+                    font-size: 12pt;
+                }
+
+                #formula
+                {
+                    font-size: 11pt;
+                    font-style: italic;
+                    color: #808080;
+                    margin-top: 0.2%;
+                    margin-bottom: 0.2%;
+                }
+  
+                #choppedNum2, #roundedNum2, #chopabsError2, #roundabsError2, #choprelError2, #roundrelError2{  
+                    width: 200px; 
+                    height: 25px; 
+                    background-color: #36454F;
+                    border: 5px solid #36454F;
+                    color: white;
+                    border-radius: 7px;  
+                    padding: 10px;  
+                    margin: 5px;  
+                    font-size: 12pt;
+                } 
+
+                #inst, #note, #inst1, #inst2, #inst3, #inst4, #inst5
+                {
+                    font-size: 11pt;
+                    font-style: italic;
+                    color: #808080;
+                }
+                hr{
+                    border: 1px solid #36454F;
+                }
+            </style>  
+        </head> 
+
+        <body>  
+            <h1>Part 1: Error</h1>  
+            <div class= "formStyleCalc"> 
+                <form name = "formCalc">
+      
+                <!-- This input box shows the buttons pressed by the user in calculator. -->  
+                <h3>True Value</h3>
+                <input type ="text" id = "calc" name = "input"><br>
+
+                <!-- Display the Clear button and erase all data entered by the user. -->  
+                <input type = "button" value = "C" onclick = "window.location.reload(true)" id= "clear" > 
+
+                <!-- When we click on the '=' button, the result will be shown on the calculator screen. -->  
+                <input type = "button" value = "=" onclick = "formCalc.input.value = eval(formCalc.input.value)" id = "equal">  
+
+                <!-- Display the calculator buttons on the screen -->
+                <input type = "button" class = "calcbutton" value = "(" onclick = "openPar()">
+                <input type = "button" class = "calcbutton" value = ")" onclick = "closePar()"><br>  
+
+                <input type = "button" class = "calcbutton" value = "^" onclick= "exp()">
+                <input type = "button" class = "calcbutton" value = "sin" onclick= "sin()">
+                <input type = "button" class = "calcbutton" value = "cos" onclick= "cos()">
+                <input type = "button" class = "calcbutton" value = "tan" onclick= "tan()"><br>
+          
+                <input type = "button" class = "calcbutton" value = "7" onclick = "seven()">
+                <input type = "button" class = "calcbutton" value = "8" onclick = "eight()">
+                <input type = "button" class = "calcbutton" value = "9" onclick = "nine()">
+                <input type = "button" class = "calcbutton" value = "+" onclick = "add()"><br>
+
+                <input type = "button" class = "calcbutton" value = "4" onclick = "four()">
+                <input type = "button" class = "calcbutton" value = "5" onclick = "five()">
+                <input type = "button" class = "calcbutton" value = "6" onclick = "six()">
+                <input type = "button" class = "calcbutton" value = "-" onclick = "sub()"><br>  
+
+                <input type = "button" class = "calcbutton" value = "1" onclick = "one()">
+                <input type = "button" class = "calcbutton" value = "2" onclick = "two()">
+                <input type = "button" class = "calcbutton" value = "3" onclick = "three()">
+                <input type = "button" class = "calcbutton" value = "*" onclick = "mul()"><br>
+
+                <input type = "button" class = "calcbutton" value = "." onclick = "point()"> 
+                <input type = "button" class = "calcbutton" value = "0" onclick = "zero()">
+                <input type = "button" class = "calcbutton" value= "&#8730;" onclick= "sqrt()">
+                <input type = "button" class = "calcbutton" value = "/" onclick = "div()"><br>  
+            
+                <input type = "button" class = "calcbutton" value = "&pi;" onclick = "pi()">
+                <input type = "button" class = "calcbutton" value = "e" onclick= "eulersNum()">
+                </form>
+            </div>
+
+            <div class= "formStyleCalc2"> 
+                <form name = "formCalc2">
+      
+                <!-- This input box shows the buttons pressed by the user in calculator. -->
+                <h3>Approximate Value</h3>
+                <input type ="text" id = "approxVal" name = "input2"><br>
+
+                <!-- Display the Clear button and erase all data entered by the user. -->  
+                <input type = "button" value = "C" onclick = "window.location.reload(true)" id= "clear2" > 
+
+                <!-- When we click on the '=' button, the result will be shown on the calculator screen. -->  
+                <input type = "button" value = "=" onclick = "formCalc2.input2.value = eval(formCalc2.input2.value)" id = "equal2">  
+
+                <!-- Display the calculator buttons on the screen -->
+                <input type = "button" class = "calcbutton2" value = "(" onclick = "openPar2()">
+                <input type = "button" class = "calcbutton2" value = ")" onclick = "closePar2()"><br>  
+
+                <input type = "button" class = "calcbutton2" value = "^" onclick= "exp2()">
+                <input type = "button" class = "calcbutton2" value = "sin" onclick= "sin2()">
+                <input type = "button" class = "calcbutton2" value = "cos" onclick= "cos2()">
+                <input type = "button" class = "calcbutton2" value = "tan" onclick= "tan2()"><br>
+          
+                <input type = "button" class = "calcbutton2" value = "7" onclick = "seven2()">
+                <input type = "button" class = "calcbutton2" value = "8" onclick = "eight2()">
+                <input type = "button" class = "calcbutton2" value = "9" onclick = "nine2()">
+                <input type = "button" class = "calcbutton2" value = "+" onclick = "add2()"><br>
+
+                <input type = "button" class = "calcbutton2" value = "4" onclick = "four2()">
+                <input type = "button" class = "calcbutton2" value = "5" onclick = "five2()">
+                <input type = "button" class = "calcbutton2" value = "6" onclick = "six2()">
+                <input type = "button" class = "calcbutton2" value = "-" onclick = "sub2()"><br>  
+
+                <input type = "button" class = "calcbutton2" value = "1" onclick = "one2()">
+                <input type = "button" class = "calcbutton2" value = "2" onclick = "two2()">
+                <input type = "button" class = "calcbutton2" value = "3" onclick = "three2()">
+                <input type = "button" class = "calcbutton2" value = "*" onclick = "mul2()"><br>
+
+                <input type = "button" class = "calcbutton2" value = "." onclick = "point2()"> 
+                <input type = "button" class = "calcbutton2" value = "0" onclick = "zero2()">
+                <input type = "button" class = "calcbutton2" value= "&#8730;" onclick= "sqrt2()">
+                <input type = "button" class = "calcbutton2" value = "/" onclick = "div2()"><br>  
+            
+                <input type = "button" class = "calcbutton2" value = "&pi;" onclick = "pi2()">
+                <input type = "button" class = "calcbutton2" value = "e" onclick= "eulersNum2()">
+                </form>
+            </div>
+
+            <div class= "formStyleRnC">
+                <form name = "formDec">
+
+                <div class="boxi">
+                <!-- This input box gets the number of decimals from user --> 
+                Number of Decimals
+                <input type = "text" id = "numDec" onchange = "clear()">
+                <p id = "inst">Press "Enter" to see results</p>
+
+                <!-- This input box shows the approximated value by chopping --> 
+                Approximated Value (Chopped)
+                <input type = "text" id = "choppedNum">
+                
+                <!-- This input box shows the approximated value by rounding -->
+                Approximated Value (Rounded)
+                <input type = "text" id = "roundedNum"><br>
+
+                <!-- This input box shows the absolute error of chopped value -->
+                Absolute Error (Chopped)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <input type = "text" id = "chopabsError">
+
+                <!-- This input box shows the absolute error of rounded value -->
+                Absolute Error (Rounded)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <input type = "text" id = "roundabsError"><br>
+
+                <!-- This input box shows the relative error of chopped value -->
+                Relative Error (Chopped)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <input type = "text" id = "choprelError">
+
+                <!-- This input box shows the relative error of rounded value -->
+                Relative Error (Rounded)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <input type = "text" id = "roundrelError"><br>
+
+                <p id = "note">If the result is too wide for the input box, scroll horizontally to see everything.</p> 
+                </form>
+                </div>
+            </div>  
+
+            <h1>Part 2: Maclaurin Series</h1> 
+            <div class="boxj"> 
+                <div class= "formEnter">  
+                    
+                    <!-- Displays the default function --> 
+                    <h4>Default Function:  1 / (1-x)^3</h4>
+
+                    <!-- This input box shows the 'n' value given by the user. --> 
+                    Enter the value n&nbsp;&nbsp;
+                    <input type = "text" id = "nVal"><br>
+
+                    <!-- This input box shows the 'x' value given by the user. --> 
+                    Enter the value x&nbsp;&nbsp;
+                    <input type = "text" id = "xVal">
+                    <p id = "inst1">For n, only positive numbers are accepted.</p>
+
+                    <!--This button is used to submit the user's input-->
+                    <input type = "button" class = "cbutton" value= "Calculate" id = "calcu" onclick= "deriveCalc()">
+
+                    <!--This button is used to clear the input fields-->
+                    <input type = "button" class = "cbutton" value= "Clear" onclick= "window.location.reload(true)">
+                    <p id = "inst2">Click the "Clear" button before entering another value.</p>
+                </div>
+                <hr>
+                <div class = "formDer">
+                    <!--Displays the derivative-->
+                    <h2>DERIVATIVE</h2>
+                    <p id = "inst3">Note: a = 0</p>
+                    <input type = "text" id = "derive1"><br>
+                    <input type = "text" id = "derive2"><br>
+                    <p id = "inst4">If the result is too wide for the input box, scroll horizontally  to see everything.</p>
+                <hr>
+                    <!--Displays the Pn(x)-->
+                    <h2>MACLAURIN SERIES</h2><br>
+                    <p id = "formula">Pn(x) = f(c) + f'(c)(x-c) + f''(c)/2!(x-c)^2 + f'''(c)/3!(x-c)^3 + ... + f^(n)(c)/n!(x-c)^n</p><br>
+                    <input type = "text" id = "macSeries"><br>
+                    <input type = "text" id = "macSeries2"><br>
+                    <input type = "text" id = "macSeries3"><br><br>
+                </div>
+            </div>
+                <div class = "formAccu">
+
+                    <div class="boxk">
+                    <!--Displays the error and relative error-->
+                    <h2>ACCURACY</h2><br>
+                    
+                    <!-- This input box gets the number of decimals from user --> 
+                    Number of Decimals:
+                    <input type = "text" id = "numDec2">
+                    <p id = "inst5">Press "Enter" to see results</p>
+
+                    <!-- This input box shows the approximated value by chopping --> 
+                    Approximated Value (Chopped)
+                    <input type = "text" id = "choppedNum2">
+
+                    <!-- This input box shows the approximated value by rounding -->
+                    Approximated Value (Rounded)
+                    <input type = "text" id = "roundedNum2"><br>
+
+                    <!-- This input box shows the absolute error of chopped value -->
+                    Absolute Error (Chopped)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <input type = "text" id = "chopabsError2">
+
+                    <!-- This input box shows the absolute error of rounded value -->
+                    Absolute Error (Rounded)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <input type = "text" id = "roundabsError2"><br>
+
+                    <!-- This input box shows the relative error of chopped value -->
+                    Relative Error (Chopped)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <input type = "text" id = "choprelError2">
+
+                    <!-- This input box shows the relative error of rounded value -->
+                    Relative Error (Rounded)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <input type = "text" id = "roundrelError2"><br> 
+                    </div>
+            </div>  
+
+            <script>
+                //These are all the function for each button 
+                //calc1 button
+                function seven(){
+                    document.getElementById("calc").value += '7';
+                    document.getElementById("calc").focus();
+                }
+                function eight(){
+                    document.getElementById("calc").value += '8';
+                    document.getElementById("calc").focus();
+                }
+                function nine(){
+                    document.getElementById("calc").value += '9';
+                    document.getElementById("calc").focus();
+                }
+                function add(){
+                    document.getElementById("calc").value += '+';
+                    document.getElementById("calc").focus();
+                }
+                function four(){
+                    document.getElementById("calc").value += '4';
+                    document.getElementById("calc").focus();
+                }
+                function five(){
+                    document.getElementById("calc").value += '5';
+                    document.getElementById("calc").focus();
+                }
+                function six(){
+                    document.getElementById("calc").value += '6';
+                    document.getElementById("calc").focus();
+                }
+                function sub(){
+                    document.getElementById("calc").value += '-';
+                    document.getElementById("calc").focus();
+                }
+                function one(){
+                    document.getElementById("calc").value += '1';
+                    document.getElementById("calc").focus();
+                }
+                function two(){
+                    document.getElementById("calc").value += '2';
+                    document.getElementById("calc").focus();
+                }
+                function three(){
+                    document.getElementById("calc").value += '3';
+                    document.getElementById("calc").focus();
+                }
+                function mul(){
+                    document.getElementById("calc").value += '*';
+                    document.getElementById("calc").focus();
+                }
+                function point(){
+                    document.getElementById("calc").value += '.';
+                    document.getElementById("calc").focus();
+                }
+                function zero(){
+                    document.getElementById("calc").value += '0';
+                    document.getElementById("calc").focus();
+                }
+                function eulersNum(){
+                    document.getElementById("calc").value += 'Math.E';
+                    document.getElementById("calc").focus();
+                }
+                function div(){
+                    document.getElementById("calc").value += '/';
+                    document.getElementById("calc").focus();
+                }
+                function sqrt(){
+                    document.getElementById("calc").value += 'Math.sqrt(';
+                    document.getElementById("calc").focus();
+                }
+                function pi(){
+                    document.getElementById("calc").value += 'Math.PI';
+                    document.getElementById("calc").focus();
+                }
+                function exp(){
+                    document.getElementById("calc").value += '**';
+                    document.getElementById("calc").focus();
+                }
+                function sin(){
+                    document.getElementById("calc").value += 'Math.sin(';
+                    document.getElementById("calc").focus();
+                }
+                function cos(){
+                    document.getElementById("calc").value += 'Math.cos(';
+                    document.getElementById("calc").focus();
+                }
+                function tan(){
+                    document.getElementById("calc").value += 'Math.tan(';
+                    document.getElementById("calc").focus();
+                }
+                function openPar(){
+                    document.getElementById("calc").value += '(';
+                    document.getElementById("calc").focus();
+                }
+                function closePar(){
+                    document.getElementById("calc").value += ')';
+                    document.getElementById("calc").focus();
+                }
+
+                //calc2 button
+                function seven2(){
+                    document.getElementById("approxVal").value += '7';
+                    document.getElementById("approxVal").focus();
+                }
+                function eight2(){
+                    document.getElementById("approxVal").value += '8';
+                    document.getElementById("approxVal").focus();
+                }
+                function nine2(){
+                    document.getElementById("approxVal").value += '9';
+                    document.getElementById("approxVal").focus();
+                }
+                function add2(){
+                    document.getElementById("approxVal").value += '+';
+                    document.getElementById("approxVal").focus();
+                }
+                function four2(){
+                    document.getElementById("approxVal").value += '4';
+                    document.getElementById("approxVal").focus();
+                }
+                function five2(){
+                    document.getElementById("approxVal").value += '5';
+                    document.getElementById("approxVal").focus();
+                }
+                function six2(){
+                    document.getElementById("approxVal").value += '6';
+                    document.getElementById("approxVal").focus();
+                }
+                function sub2(){
+                    document.getElementById("approxVal").value += '-';
+                    document.getElementById("approxVal").focus();
+                }
+                function one2(){
+                    document.getElementById("approxVal").value += '1';
+                    document.getElementById("approxVal").focus();
+                }
+                function two2(){
+                    document.getElementById("approxVal").value += '2';
+                    document.getElementById("approxVal").focus();
+                }
+                function three2(){
+                    document.getElementById("approxVal").value += '3';
+                    document.getElementById("approxVal").focus();
+                }
+                function mul2(){
+                    document.getElementById("approxVal").value += '*';
+                    document.getElementById("approxVal").focus();
+                }
+                function point2(){
+                    document.getElementById("approxVal").value += '.';
+                    document.getElementById("approxVal").focus();
+                }
+                function zero2(){
+                    document.getElementById("approxVal").value += '0';
+                    document.getElementById("approxVal").focus();
+                }
+                function eulersNum2(){
+                    document.getElementById("approxVal").value += 'Math.E';
+                    document.getElementById("approxVal").focus();
+                }
+                function div2(){
+                    document.getElementById("approxVal").value += '/';
+                    document.getElementById("approxVal").focus();
+                }
+                function sqrt2(){
+                    document.getElementById("approxVal").value += 'Math.sqrt(';
+                    document.getElementById("approxVal").focus();
+                }
+                function pi2(){
+                    document.getElementById("approxVal").value += 'Math.PI';
+                    document.getElementById("approxVal").focus();
+                }
+                function exp2(){
+                    document.getElementById("approxVal").value += '**';
+                    document.getElementById("approxVal").focus();
+                }
+                function sin2(){
+                    document.getElementById("approxVal").value += 'Math.sin(';
+                    document.getElementById("approxVal").focus();
+                }
+                function cos2(){
+                    document.getElementById("approxVal").value += 'Math.cos(';
+                    document.getElementById("approxVal").focus();
+                }
+                function tan2(){
+                    document.getElementById("approxVal").value += 'Math.tan(';
+                    document.getElementById("approxVal").focus();
+                }
+                function openPar2(){
+                    document.getElementById("approxVal").value += '(';
+                    document.getElementById("approxVal").focus();
+                }
+                function closePar2(){
+                    document.getElementById("approxVal").value += ')';
+                    document.getElementById("approxVal").focus();
+                }
+                //dec
+                function clear(){
+                    document.getElementById("choppedNum").value = "";
+                    document.getElementById("roundedNum").value = "";
+                }
+                
+                //PART 1
+                //Computes the error and relative error of chopped and rounded value
+                var numInput = document.getElementById("numDec");
+                //Computes for the values after pressing the enter key
+                numInput.addEventListener("keypress", function(event) {
+                    if (event.key === "Enter") {
+                        var answer = document.getElementById("calc").value;
+                        var ans = eval(answer);
+                        var approximated = document.getElementById("approxVal").value;
+                        var approx = eval(approximated);
+                        var dec = document.getElementById("numDec").value;
+                        var a = Number(ans);
+                        var ax = Number(approx);
+                        var d = Number(dec);
+
+                        //Computes for the chopped and rounded value
+                        var cNum = Math.trunc(ax * Math.pow(10, d))/Math.pow(10, d);
+                        var rNum = ax.toFixed(d);
+
+                        //Displays the chopped and rounded value
+                        document.getElementById("choppedNum").value = cNum;
+                        document.getElementById("roundedNum").value = rNum;
+
+                        //Displays the absolute error using chopped value 
+                        document.getElementById("chopabsError").value = Math.abs(ans-cNum);
+
+                        //Displays the absolute error using rounded value
+                        document.getElementById("roundabsError").value = Math.abs(ans-rNum);
+
+                        //Displays the relative error using chopped value (15 digits)
+                        var choppedrelError = Math.abs((ans-cNum)/ans) * 100;
+                        var str_choppedrelError = choppedrelError.toString();
+                        var choppedrelError1 = Number(str_choppedrelError.slice(0, 15));
+                        document.getElementById("choprelError").value = choppedrelError1 + "%";
+
+                        //Displays the relative error using rounded value (15 digits)
+                        var roundedrelError = Math.abs((ans-rNum)/ans) * 100;
+                        var str_roundedrelError = roundedrelError.toString();
+                        var roundedrelError1 = Number(str_roundedrelError.slice(0, 15))
+                        document.getElementById("roundrelError").value = roundedrelError1 + "%";
+                    }
+                });
+
+                //PART 2
+                //The calculate button will be automatically clicked when enter key is pressed (but only after the user inputted both n and x value)
+                var xInput = document.getElementById("xVal");
+                    xInput.addEventListener("keypress", function(event) {
+                        if (event.key === "Enter") {
+                            event.preventDefault();
+                            document.getElementById("calcu").click();
+                            document.getElementById("calcu")
+                            document.getElementById("calcu")
+                        }
+                    });
+
+                //This function shows the derivatives, maclaurin series, chopped and rounded value, and the absolute and relative error
+                function deriveCalc(){
+                    let nVal = document.getElementById("nVal").value;
+                    let n = Number(nVal);
+                    //Validation for the value of n
+                    let txtN;
+                    if (isNaN(n) || n < 1) {
+                        txtN = "Invalid. Input a positive number.";
+                    }else{
+                        txtN = "For n, only positive numbers are accepted.";
+                    }
+                    document.getElementById("inst1").innerHTML = txtN;
+
+                    let xVal = document.getElementById("xVal").value;
+                    //This converts input x from fraction into decimal
+                    if(xVal.includes('/')){
+                        var n1 = xVal.split('/')[0];
+                        var n2 = xVal.split('/')[1];
+                        var quo = n1 / n2;
+                        var x = Number(quo);
+                    }else{
+                        var x = Number(xVal);
+                    }
+
+                    //This variable is used in the loop below
+                    let numDefault = 1;
+
+                    //Shows the derivate of the default function
+                    let txtDerive;
+                    if (isNaN(n) || n < 1){
+                        document.getElementById("derive1").value = "";
+                        document.getElementById("derive2").value = "";
+                    }else{
+                        document.getElementById("derive1").value = "Derivative: 1/(1-x)^3" + ", ";
+                        document.getElementById("derive2").value += "Derivative: " + (1 / Math.pow((1-0), 3)) + ", ";
+                    }
+
+                    //Shows all the derivative based on the user's input (n)
+                    for(let i = 1; i <= n; i++){
+                        let exp = 3 + i;
+                        let numNew = numDefault * (exp - 1);
+                        numDefault = numNew;
+
+                        if(i%2 != 0) {
+                            var ans = numDefault + "/ (x-1)^" + exp;
+                            var ans2 = numDefault / Math.pow((1-0), exp);
+                        }else{
+                            var ans = - numDefault + " / (x-1)^" + exp;
+                            var ans2 = - (numDefault / Math.pow((0-1), exp));
+                        }
+                            //Derivative without substituting the value of a (Note: a = 0)
+                            document.getElementById("derive1").value += "Derivative " + "[" + i + "]" + ": " + ans + ", ";
+                            //Derivative after substituting the value of a (Note: a = 0)
+                            document.getElementById("derive2").value += "Derivative " + "[" + i + "]" + ": " + ans2 + ", ";
+
+                        //Shows the maclaurin series of the function
+                        if(i == 1){
+                            //Substitutes the value of the default function into the series
+                            var Poly = (1 / Math.pow((1-0), 3));
+                            document.getElementById("macSeries").value += "P"+ n +"(x) = " + Poly;
+
+                            //Substitutes the value of the first derivative into the series
+                            var firstPoly = ans2 + "(" + "x" + ")";
+                            document.getElementById("macSeries").value += " + " + firstPoly;
+                            
+                        }else{
+                            //Gets the factorial
+                            let factorial = 1;
+                            for (var a = i; a >= 1; a--){  
+                                factorial = factorial * a;
+                            }
+
+                            //Substitutes the value of the second and succeeding derivatives into the series
+                            var nextPoly = ans2 + "/" + factorial + "(" + "x" + ")" + "^" + i;
+                            document.getElementById("macSeries").value += " + " + nextPoly;       
+                        }
+
+                        //Substitutes the user's input (x) into the maclaurin series
+                        if(i == 1){
+                            //Computes the first polynomial
+                            var polySub = (1 / Math.pow((1-0), 3));
+                            document.getElementById("macSeries2").value += "P"+ n + "(" + xVal + ")" + " = " + polySub;
+
+                            //Computes the second polynomial 
+                            var firstPolySub = ans2 * (x);
+                            document.getElementById("macSeries2").value += " + " + "( " + firstPolySub + " )";
+                        }else{
+                            let factorial = 1;
+                            for (var a = i; a >= 1; a--){  
+                                factorial = factorial * a;
+                            }
+
+                            //Computes the third and succeeding polynomials
+                            var nextPolySub = ans2/factorial * (Math.pow(x, i));
+                            document.getElementById("macSeries2").value += " + " + "( " + nextPolySub + " )"; 
+                        }
+
+                        //Computes for the sum of the maclaurin series after substituting the user's input (x) 
+                        if(i == 1){
+                            //Sum of the first and second polynomial 
+                            var sum = 0;
+                            sum += polySub + firstPolySub;
+                            document.getElementById("macSeries3").value = "P"+ n + "(" + xVal + ")" + " = " + sum;
+                        }else{
+                            //Sum of the first, second, and succeeding polynomials
+                            sum += nextPolySub;
+                            document.getElementById("macSeries3").value = "P"+ n + "(" + xVal + ")" + " = " + sum;
+                        }
+
+                        //Computes the error and relative error of chopped and rounded value
+                        var decInput = document.getElementById("numDec2");
+                        //Computes for the answers after pressing the enter key
+                        decInput.addEventListener("keypress", function(event) {
+                            if (event.key === "Enter") {
+                                var decimal = document.getElementById("numDec2").value;
+                                var dc = Number(decimal);
+                                var xFunction = 1/Math.pow((1-x), 3);
+
+
+                                //Computes for the chopped and rounded value
+                                var chopNum = Math.trunc(sum * Math.pow(10, dc))/Math.pow(10, dc);
+                                var roundNum = sum.toFixed(dc);
+
+                                //Displays the chopped and rounded value
+                                document.getElementById("choppedNum2").value = chopNum;
+                                document.getElementById("roundedNum2").value = roundNum;
+
+                                //Displays the absolute error using chopped value
+                                document.getElementById("chopabsError2").value = Math.abs(xFunction-chopNum);
+
+                                //Displays the absolute error using rounded value 
+                                document.getElementById("roundabsError2").value = Math.abs(xFunction-roundNum);
+
+                                //Displays the relative error using chopped value (15 digits)
+                                var choppedrelError2 = Math.abs((xFunction-chopNum)/xFunction) * 100;
+                                var str_choppedrelError2 = choppedrelError2.toString();
+                                var choppedrelError3 = Number(str_choppedrelError2.slice(0, 15));
+                                document.getElementById("choprelError2").value = choppedrelError3 + "%";
+
+                                //Displays the relative error using rounded value (15 digits)
+                                var roundedrelError2 = Math.abs((xFunction-roundNum)/xFunction) * 100;
+                                var str_roundedrelError2 = roundedrelError2.toString();
+                                var roundedrelError3 = Number(str_roundedrelError2.slice(0, 15))
+                                document.getElementById("roundrelError2").value = roundedrelError3 + "%";
+                            }
+                        });
+                    }
+                }
+            </script>
+        </body>  
+    </html>  
+    
+       

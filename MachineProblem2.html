@@ -1,0 +1,1400 @@
+<!DOCTYPE html>     
+    <html lang = "en">  
+        <head>  
+            <!--Montserrat-->
+            <link rel="preconnect" href="https://fonts.googleapis.com"> 
+            <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin> 
+            <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&display=swap" rel="stylesheet">
+            <!--Source sans pro-->
+            <link rel="preconnect" href="https://fonts.googleapis.com"> 
+            <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin> 
+            <link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro&display=swap" rel="stylesheet">
+            <!--Londrina outline-->
+            <link rel="preconnect" href="https://fonts.googleapis.com"> 
+            <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin> 
+            <link href="https://fonts.googleapis.com/css2?family=Londrina+Outline&display=swap" rel="stylesheet">
+            <title> Numerical Analysis: Machine Problem for Midterms</title> 
+            <style>
+                body {
+                    background-image: url(https://img.freepik.com/free-vector/gradient-black-background-with-wavy-lines_23-2149151738.jpg?w=826&t=st=1680422667~exp=1680423267~hmac=2baa20eb00c710a37d4da2308c5e3e83205c700218f80341701f590d17990efa);
+                    background-repeat: no-repeat;
+                    background-size: 100%;
+                    background-attachment: fixed;
+                    color: white;
+                    text-align: center;
+                    font-size: 18pt;
+                    font-family: 'Source Sans Pro', sans-serif;
+                }
+
+                h1{
+                    font-size: 45pt;
+                    font-family: 'Montserrat', sans-serif;
+                    letter-spacing: 2px;
+                }
+
+                h2{
+                    font-size: 24pt;
+                    border: 5px solid #FFA500; 
+                    background-color: transparent;
+                    width: fit-content;
+                    color: whitesmoke;
+                    margin: auto;
+                    padding: 1%;
+                }
+
+                select{
+                    width: 240px; 
+                    height: 40px;
+                    border: 3px solid black; 
+                    border-radius: 20px;  
+                    padding: 10px;  
+                    margin-left: 1%;
+                    margin-right: 1%;
+                    background-color: #FFA500;
+                    color: black;
+                    font-size: 10pt;
+                }
+
+                #inputFunc{
+                    width: 150px; 
+                    height: 20px; 
+                    background-color: #ffe9c078;
+                    border: 2px solid #FFA500;
+                    color: #FFA500;
+                    border-radius: 2px;  
+                    padding: 10px;
+                    font-size: 12pt;
+                }
+
+                #interval, #iterationInput, #errorInput, #x0, #x1, #iterationInput2, #errorInput2, #interval_p2, #iterationInput_p2, #errorInput_p2, #x0_p2, #x1_p2, #iterationInput2_p2, #errorInput2_p2{
+                    width: 150px; 
+                    height: 20px; 
+                    background-color: whitesmoke;
+                    border: 2px solid whitesmoke;
+                    color: gray;
+                    border-radius: 2px;  
+                    padding: 10px;  
+                }
+
+                #note{
+                    font-style: italic;
+                    font-size: 14pt;
+                    color: #71797E;
+                }
+
+                table, th, td{
+                    border: 1px solid whitesmoke;
+                    border-collapse: collapse;
+                }
+
+                table{
+                    margin: auto;
+                }
+
+                th, td{
+                    padding: 15px 60px;
+                    text-align: center;
+                }
+
+                input[type="trigobutton"]{
+                    width: 42px;  
+                    height: 42px;
+                    border: 3px solid #FFA500; 
+                    border-radius: 21px;  
+                    margin: 2px;
+                    background-color: transparent;
+                    color: #FFA500;
+                    font-size: 12pt;
+                    text-align: center;
+                }
+                input[type="trigobutton"]:hover{
+                    background-color: #FFA500;
+                    border-color: #FFA500;
+                    color: black;
+                }
+
+                input[type="button"]{
+                    width: 160px; 
+                    height: 50px;
+                    border: 3px solid gray; 
+                    border-radius: 20px;  
+                    padding: 10px;  
+                    margin-left: 0.5%;
+                    margin-right: 0.5%;
+                    background-color: transparent;
+                    color: whitesmoke;
+                    font-size: 10pt;
+                    text-align: center;
+                }
+                input[type="button"]:hover{
+                    background-color: #FFA500;
+                    border-color: #FFA500;
+                    color: black;
+                }
+
+            </style>
+        </head>
+        <body>
+            <!--Part 1-->
+            <h1>PART 1: PREDEFINED FUNCTION</h1>
+
+            <!-- Display the default function --> 
+            <h2>Default Function: 1 - (1 / (1-x)^3)</h2>
+
+            <!-- Display the options for the desired method -->
+            <h3>Choose a root-finding method
+            <select id = "methodList" onchange = "methodOpt()">
+                <option value = "bisectionMethod" selected>Bisection (Bracketing Method)</option>
+                <option value = "secantMethod">Secant (Open Method)</option>
+            </select>
+            </h3>
+
+            <!-- BISECTION PART -->
+            <form id = "bisectionForm">
+
+                <!-- This input box will get the interval (a & b) from the user -->
+                Enter Interval&nbsp;&nbsp;
+                <input type = "text" id = "interval"><br>
+                <p id = "note">Example: [1,2]<br>
+                    f(a) and f(b) must have opposite signs</p>
+
+                <!-- These buttons will serve as options for the stopping criteria -->
+                <h3>Choose a stopping criteria
+                <input type = "button" value = "Iteration (n)" onclick = "n()">
+                <input type = "button" value = "Error (&epsilon;)" onclick = "e()"></h3>
+
+                <!-- This input field will get the number of iterations from the user (if he/she clicked the "Iteration" button above) -->
+                <p>Enter the number of iterations&nbsp;&nbsp;
+                <input type = "text" id = "iterationInput" disabled>&nbsp;&nbsp;&nbsp;&nbsp;
+
+                <!-- This input field will get the desired error from the user (if he/she clicked the "Error" button above) -->
+                Enter the desired error&nbsp;&nbsp;
+                <input type = "text" id = "errorInput" disabled></p>
+
+                <!-- This button will show the outputs (table, n, E, Cn, and f(Cn)) when clicked -->
+                <input type = "button" id = "calcBtn" onclick = "calculate()" value = "Calculate">
+
+                <!-- This button will clear all data entered by the user -->  
+                <input type = "button" value = "Clear" onclick = "location.reload()">
+                <p id = "note">Click the "Clear" button first before changing or adding another input</p><br>
+                
+                <!-- Display a text if the user's interval is invalid -->
+                <p id = "invalid"></p>
+
+                <!-- Display the resulting e or n after computation -->
+                <p id = "stopCriteria"></p>
+
+                <!-- Display the final Cn -->
+                <p id = "cn"></p>
+                
+                <!-- Display the final fCn -->
+                <p id = "fCn"></p>
+                
+                <!-- These are the table headers (hidden by default) -->
+                <table id = "table" style = "visibility: hidden;">
+                    <tr id = "rowHeader">
+                        <th>n</th>
+                        <th>a</th>
+                        <th>b</th>
+                        <th>c</th>
+                        <th>|a-b|</th>
+                        <th id = "errorHeader">&epsilon;</th>
+                        <th>f(c)</th>
+                    </tr>
+                </table><br><br>
+            </form>
+
+            <!-- SECANT PART -->
+            <form id = "secantForm" style = "visibility: hidden; display: none;">
+                
+                <!-- This input box will get the x0 from the user -->
+                Enter x<sub>0</sub>&nbsp;&nbsp;
+                <input type = "text" id = "x0">&nbsp;&nbsp;&nbsp;&nbsp;
+
+                <!-- This input box will get the x1 from the user -->
+                Enter x<sub>1</sub>&nbsp;&nbsp;
+                <input type = "text" id = "x1">
+
+                <!-- Display instructions (what must not be entered by the user) -->
+                <p id = "note">f(x<sub>0</sub>) and f(x<sub>1</sub>) must not be equal to each other<br>
+                    x<sub>0</sub> and x<sub>1</sub> must not be 1</p>
+
+                <!-- These buttons will serve as options for the stopping criteria -->
+                <h3>Choose a stopping criteria
+                <input type = "button" value = "Iteration (n)" onclick = "n()">
+                <input type = "button" value = "Error (&epsilon;)" onclick = "e()"></h3>
+
+                <!-- This input field will get the number of iterations from the user (if he/she clicked the "Iteration" button above) -->
+                <p>Enter the number of iterations&nbsp;&nbsp;
+                <input type = "text" id = "iterationInput2" disabled>&nbsp;&nbsp;&nbsp;&nbsp;
+
+                <!-- This input field will get the desired error from the user (if he/she clicked the "Error" button above) -->
+                Enter the desired error&nbsp;&nbsp;
+                <input type = "text" id = "errorInput2" disabled></p>
+
+                <!-- This button will show the outputs (table, n, E, Cn, and f(Cn)) when clicked -->
+                <input type = "button" id = "calcBtn2" onclick = "calculate2()" value = "Calculate">
+
+                <!-- This button will clear all data entered by the user -->  
+                <input type = "button" value = "Clear" onclick = "location.reload()">
+                <p id = "note">Click the "Clear" button first before changing or adding another input</p><br><br>
+
+                <!-- Display a text if the user's interval is invalid -->
+                <p id = "invalid2"></p>
+                
+                <!-- Display the resulting e or n after computation -->
+                <p id = "stopCriteria2"></p>
+
+                <!-- Display the final Cn -->
+                <p id = "cn2"></p>
+
+                <!-- Display the final fCn -->
+                <p id = "fCn2"></p>
+                
+                <!-- These are the table headers (hidden by default) -->
+                <table id = "table2" style = "visibility: hidden;">
+                    <tr id = "rowHeader2">
+                        <th>n</th>
+                        <th>x<sub>i-1</sub></th>
+                        <th>x<sub>i</sub></th>
+                        <th>f(x<sub>i-1</sub>)</th>
+                        <th>f(x<sub>i</sub>)</th>
+                        <th>x<sub>i+1</sub></th>
+                        <th>| x<sub>i+1</sub> - x<sub>i</sub> |</th>
+                        <th id = "errorHeader2">&epsilon;</th>
+                    </tr>
+                </table>
+            </form>
+
+            <!--Part 2-->
+            <h1>PART 2: USER-DEFINED FUNCTION</h1>
+
+            <!-- Get the function from the user --> 
+            <h3>Enter a Function&nbsp;&nbsp;
+            <input type = "text" id = "inputFunc"></h3>
+            <p id = "note">If a variable has an exponent, enclose the variable inside a parentheses<br>
+            Ex: x^6 &rarr; (x)^6 </p>
+
+            <!-- Display the options for the desired method -->
+            <h3>Choose a root-finding method
+            <select id = "methodList_p2" onchange = "methodOpt_p2()">
+                <option value = "bisectionMethod2" selected>Bisection (Bracketing Method)</option>
+                <option value = "secantMethod2">Secant (Open Method)</option>
+            </select>
+            </h3>
+
+            <!-- BISECTION PART -->
+            <form id = "bisectionForm2">
+
+                <!-- This input box will get the interval (a & b) from the user -->
+                Enter Interval&nbsp;&nbsp;
+                <input type = "text" id = "interval_p2"><br>
+                <p id = "note">Example: [1,-2]<br>
+                    f(a) and f(b) must have opposite signs</p>
+
+                <!-- These buttons will serve as options for the stopping criteria -->
+                <h3>Choose a stopping criteria
+                <input type = "button" value = "Iteration (n)" onclick = "n_p2()">
+                <input type = "button" value = "Error (&epsilon;)" onclick = "e_p2()"></h3>
+
+                <!-- This input field will get the number of iterations from the user (if he/she clicked the "Iteration" button above) -->
+                <p>Enter the number of iterations&nbsp;&nbsp;
+                    <input type = "text" id = "iterationInput_p2" disabled>&nbsp;&nbsp;&nbsp;&nbsp;
+
+                <!-- This input field will get the desired error from the user (if he/she clicked the "Error" button above) -->
+                Enter the desired error&nbsp;&nbsp;
+                <input type = "text" id = "errorInput_p2" disabled></p>
+
+                <!-- This button will show the outputs (table, n, E, Cn, and f(Cn)) when clicked -->
+                <input type = "button" id = "calcBtn_p2" onclick = "calculate_p2()" value = "Calculate">
+
+                <!-- This button will clear all data entered by the user -->  
+                <input type = "button" value = "Clear" onclick = "location.reload()">
+                <p id = "note">Click the "Clear" button first before changing or adding another input</p><br>
+
+                <!-- These are the table headers (hidden by default) -->
+                <p id = "invalid_p2"></p>
+
+                <!-- Display the resulting e or n after computation -->
+                <p id = "stopCriteria_p2"></p>
+
+                <!-- Display the final Cn -->
+                <p id = "cn_p2"></p>
+                
+                <!-- Display the final fCn -->
+                <p id = "fCn_p2"></p>
+                
+                <!-- These are the table headers (hidden by default) -->
+                <table id = "table_p2" style = "visibility: hidden;">
+                    <tr id = "rowHeader_p2">
+                        <th>n</th>
+                        <th>a</th>
+                        <th>b</th>
+                        <th>c</th>
+                        <th>|a-b|</th>
+                        <th id = "errorHeader_p2">&epsilon;</th>
+                        <th>f(c)</th>
+                    </tr>
+                </table><br><br>
+            </form>
+            
+            <!-- SECANT PART -->
+            <form id = "secantForm2" style = "visibility: hidden; display: none;">
+
+                <!-- This input box will get the x0 from the user -->
+                Enter x<sub>0</sub>&nbsp;&nbsp;
+                <input type = "text" id = "x0_p2">&nbsp;&nbsp;&nbsp;&nbsp;
+
+                <!-- This input box will get the x1 from the user -->
+                Enter x<sub>1</sub>&nbsp;&nbsp;
+                <input type = "text" id = "x1_p2">
+
+                <!-- Display instructions (what must not be entered by the user) -->
+                <p id = "note">f(x<sub>0</sub>) and f(x<sub>1</sub>) must not be equal to each other<br>
+
+                <!-- These buttons will serve as options for the stopping criteria -->
+                <h3>Choose a stopping criteria
+                <input type = "button" value = "Iteration (n)" onclick = "n_p2()">
+                <input type = "button" value = "Error (&epsilon;)" onclick = "e_p2()"></h3>
+
+                <!-- This input field will get the number of iterations from the user (if he/she clicked the "Iteration" button above) -->
+                <p>Enter the number of iterations&nbsp;&nbsp;
+                <input type = "text" id = "iterationInput2_p2" disabled>&nbsp;&nbsp;&nbsp;&nbsp;    
+
+                <!-- This input field will get the desired error from the user (if he/she clicked the "Error" button above) -->
+                Enter the desired error&nbsp;&nbsp;
+                <input type = "text" id = "errorInput2_p2" disabled></p>
+
+                <!-- This button will show the outputs (table, n, E, Cn, and f(Cn)) when clicked -->
+                <input type = "button" id = "calcBtn2_p2" onclick = "calculate2_p2()" value = "Calculate">
+
+                <!-- This button will clear all data entered by the user -->  
+                <input type = "button" value = "Clear" onclick = "location.reload()">
+                <p id = "note">Click the "Clear" button first before changing or adding another input</p><br><br>
+
+                <!-- These are the table headers (hidden by default) -->
+                <p id = "invalid2_p2"></p>
+                
+                <!-- Display the resulting e or n after computation -->
+                <p id = "stopCriteria2_p2"></p>
+
+                <!-- Display the final Cn -->
+                <p id = "cn2_p2"></p>
+
+                <!-- Display the final fCn -->
+                <p id = "fCn2_p2"></p>
+                
+                <!-- These are the table headers (hidden by default) -->
+                <table id = "table2_p2" style = "visibility: hidden;">
+                    <tr id = "rowHeader2_p2">
+                        <th>n</th>
+                        <th>x<sub>i-1</sub></th>
+                        <th>x<sub>i</sub></th>
+                        <th>f(x<sub>i-1</sub>)</th>
+                        <th>f(x<sub>i</sub>)</th>
+                        <th>x<sub>i+1</sub></th>
+                        <th>| x<sub>i+1</sub> - x<sub>i</sub> |</th>
+                        <th id = "errorHeader2_p2">&epsilon;</th>
+                    </tr>
+                </table>
+            </form>
+
+            <script>
+                //Part 1
+                //This will confirm the selected root-finding method of the user
+                function methodOpt(){
+                    var rootMethod = document.getElementById("methodList");
+                    var methodValue = rootMethod.options[rootMethod.selectedIndex].value;
+                    
+                    if (methodValue == "bisectionMethod"){
+                        //If the user selected "Bisection", the bisection form will be shown
+                        document.getElementById("bisectionForm").style.visibility = "visible";
+                        document.getElementById("bisectionForm").style.display = "block";
+                        document.getElementById("secantForm").style.visibility = "hidden";
+                        document.getElementById("secantForm").style.display = "none";
+                    }else if(methodValue == "secantMethod"){
+                        //If the user selected "Secant", the secant form will be shown
+                        document.getElementById("secantForm").style.visibility = "visible";
+                        document.getElementById("secantForm").style.display = "block";
+                        document.getElementById("bisectionForm").style.visibility = "hidden";
+                        document.getElementById("bisectionForm").style.display = "none";
+                    }
+                }
+                
+                //This will enable the user to input the number of iteration if he/she clicked the "Iteration" option 
+                function n(){
+                    document.getElementById("iterationInput").disabled = false;
+                    document.getElementById("iterationInput").focus();
+                    document.getElementById("iterationInput2").disabled = false;
+                    document.getElementById("iterationInput2").focus();
+                    document.getElementById("errorInput").disabled = true;
+                    document.getElementById("errorInput").value = "";
+                    document.getElementById("errorInput2").disabled = true;
+                    document.getElementById("errorInput2").value = "";
+                }
+ 
+                //This will enable the user to input the desired error if he/she clicked the "Error" option
+                function e(){
+                    document.getElementById("errorInput").disabled = false;
+                    document.getElementById("errorInput").focus();
+                    document.getElementById("errorInput2").disabled = false;
+                    document.getElementById("errorInput2").focus();
+                    document.getElementById("iterationInput").disabled = true;
+                    document.getElementById("iterationInput").value = "";
+                    document.getElementById("iterationInput2").disabled = true;
+                    document.getElementById("iterationInput2").value = "";
+                }
+
+                //This will automatically click the calculate button when enter key is pressed (iteration - bisection)
+                var iterate = document.getElementById("iterationInput");
+                    iterate.addEventListener("keypress", function(event) {
+                        if (event.key === "Enter") {
+                            document.getElementById("calcBtn").click();
+                        }
+                    });
+
+                //This will automatically click the calculate button when enter key is pressed (iteration - secant)
+                var iterate2 = document.getElementById("iterationInput2");
+                    iterate2.addEventListener("keypress", function(event) {
+                        if (event.key === "Enter") {
+                            document.getElementById("calcBtn2").click();
+                        }
+                    });
+
+                //This will automatically click the calculate button when enter key is pressed (error - bisection)
+                var errorInt = document.getElementById("errorInput");
+                    errorInt.addEventListener("keypress", function(event) {
+                        if (event.key === "Enter") {
+                            document.getElementById("calcBtn").click();
+                        }
+                    });
+
+                //This will automatically click the calculate button when enter key is pressed (error - secant)
+                var errorInt2 = document.getElementById("errorInput2");
+                    errorInt2.addEventListener("keypress", function(event) {
+                        if (event.key === "Enter") {
+                            document.getElementById("calcBtn2").click();
+                        }
+                    });
+                
+                //For bisection part only
+                function calculate(){ 
+                    //This will get the 'a' & 'b' from the user's input 
+                    var intrvl = document.getElementById("interval").value;
+                    var aInput = intrvl.split(',')[0];
+                    var aVal = aInput.split('[')[1];
+                    var a = Number(aVal);
+                    var bInput = intrvl.split(',')[1];
+                    var bVal = bInput.split(']')[0];
+                    var b = Number(bVal);
+
+                    //This will compute for f(a) and f(b)
+                    var aFunc = 1 - (1/Math.pow((1-a), 3));
+                    var bFunc = 1 - (1/Math.pow((1-b), 3));
+
+                    //This will get the value in the "Iteration" input field
+                    var nValue = document.getElementById("iterationInput");
+                    var n = document.getElementById("iterationInput").value;
+
+                    //This will get the value in the "Error" input field
+                    var eValue = document.getElementById("errorInput");
+                    var e = document.getElementById("errorInput").value;
+
+                    //This if-else statement will check if all input fields are filled out
+                    if(intrvl.length != 0 && (n.length != 0 || e.length != 0)){
+
+                        //This if-else statement will check if f(a) and f(b) have opposite signs 
+                        if(aFunc * bFunc < 0){
+
+                            //This if-else statement will check which stopping criteria is selected by the user
+                            if(n.length != 0){
+                                //This will make the table header visible
+                                document.getElementById("table").style.visibility = "visible";
+
+                                //This will delete the "error" header if "iteration" is chosen as the stopping criteria
+                                var row = document.getElementById("rowHeader");
+                                row.deleteCell(5);
+
+                                //This loop will compute for the results and display them in the table (iteration criteria)
+                                for(i = 1; i <= n; i++){
+                                    //Add table row for each iteration
+                                    var tableRow = document.getElementById("table");
+                                    var add = tableRow.insertRow(-1);
+                                    var column1 = add.insertCell(0);
+                                    var column2 = add.insertCell(1);
+                                    var column3 = add.insertCell(2);
+                                    var column4 = add.insertCell(3);
+                                    var column5 = add.insertCell(4);
+                                    var column6 = add.insertCell(5);
+                                    column1.innerHTML = i;
+
+                                    //Display the 'a' & 'b' in the table
+                                    if(i == 1){
+                                        //Display the 'a' & 'b' on the first iteration
+                                        column2.innerHTML = a;
+                                        column3.innerHTML = b;
+                                    }else{
+                                        //Display the 'a' & 'b' on the succeeding iterations
+                                        if(aFunc * func > 0){
+                                            a = c;
+                                            column2.innerHTML = a;
+                                            column3.innerHTML = b;
+                                        }else{
+                                            b = c;
+                                            column3.innerHTML = b;
+                                            column2.innerHTML = a;
+                                        }
+                                    }
+                                
+                                    //Compute and display the 'c' in the table
+                                    var c = (a + b)/2;
+                                    column4.innerHTML = c;
+                                
+                                    //Compute and display the result for |a-b|
+                                    var err = Math.abs(a-b);
+                                    column5.innerHTML = err;
+
+                                    //Compute and display the result for f(c)
+                                    var func = 1 - (1/Math.pow((1-c), 3));
+                                    column6.innerHTML = func;
+
+                                    //Display the final error, Cn, and f(Cn)
+                                    if(i == n){
+                                        document.getElementById("stopCriteria").innerHTML = "&epsilon;" + " = " + err;
+                                        document.getElementById("cn").innerHTML = "Cn = " + c;
+                                        document.getElementById("fCn").innerHTML = "f(Cn) = " + func;
+                                    }
+
+                                    //This will terminate the iteration if the error becomes 0
+                                    if(err == 0){
+                                        break;
+                                    }
+                                }
+                            }else{
+                                //This will make the table header visible
+                                document.getElementById("table").style.visibility = "visible";
+
+                                //This will change the text inside the table header of the errors
+                                document.getElementById("errorHeader").innerHTML = "< " + e;
+
+                                //This loop will compute for the results and display them in the table (error criteria)
+                                var x = 1;
+                                var y = 1;
+                                while(x > e){
+                                    //Add table row for each iteration
+                                    var tableRow = document.getElementById("table");
+                                    var add = tableRow.insertRow(-1);
+                                    var column1 = add.insertCell(0);
+                                    var column2 = add.insertCell(1);
+                                    var column3 = add.insertCell(2);
+                                    var column4 = add.insertCell(3);
+                                    var column5 = add.insertCell(4);
+                                    var column6 = add.insertCell(5);
+                                    var column7 = add.insertCell(6);
+    
+                                    //Display the 'a' & 'b' in the table
+                                    if(y == 1){
+                                        //Display the 'a' & 'b' on the first iteration
+                                        column2.innerHTML = a;
+                                        column3.innerHTML = b;
+                                    }else{
+                                        //Display the 'a' & 'b' on the succeeding iterations
+                                        if(aFunc * func > 0){
+                                            a = c;
+                                            column2.innerHTML = a;
+                                            column3.innerHTML = b;
+                                        }else{
+                                            b = c;
+                                            column3.innerHTML = b;
+                                            column2.innerHTML = a;
+                                        }
+                                    }
+
+                                    //Compute and display the 'c' in the table
+                                    var c = (a + b)/2;
+                                    column4.innerHTML = c;
+                                
+                                    //Compute and display the result for |a-b|
+                                    var err = Math.abs(a-b);
+                                    column5.innerHTML = err;
+                                    x = err;
+                                
+                                    //This will check if the computed error is less than the desired error of the user
+                                    if(x > e){
+                                        column6.innerHTML = "No";
+                                    }else{
+                                        column6.innerHTML = "Yes";
+                                    }
+
+                                    //Compute and display the result for f(c)
+                                    var func = 1 - (1/Math.pow((1-c), 3));
+                                    column7.innerHTML = func;
+
+                                    //Display the final error, Cn, and f(Cn)
+                                    if(x < e){
+                                        document.getElementById("stopCriteria").innerHTML = "n = " + y;
+                                        document.getElementById("cn").innerHTML = "Cn = " + c;
+                                        document.getElementById("fCn").innerHTML = "f(Cn) = " + func;
+                                    }
+
+                                    //Will increment the number of iteration(n) in the table
+                                    column1.innerHTML = y++;
+                                }
+                            }
+                        }else{
+                            //Display a text if f(a) and f(b) have same signs
+                            document.getElementById("table").style.display = "none";
+                            document.getElementById("invalid").innerHTML = "f(a) and f(b) must have opposite signs";
+                        }
+                    }else{
+                        //Display a text if some input fields are not filled out
+                        document.getElementById("table").style.display = "none";
+                        document.getElementById("invalid").innerHTML = "Make sure to fill out all input fields";
+                    }
+                }
+
+                //For secant part only
+                function calculate2(){
+                    //This will get the 'x0' & 'x1' from the user's input 
+                    var x_Zero = document.getElementById("x0").value;
+                    var xZero = Number(x_Zero);
+                    var x_One = document.getElementById("x1").value;
+                    var xOne = Number(x_One);
+
+                    //This will compute for f(x0) and f(x1)
+                    var x0Func = 1 - (1/Math.pow((1-xZero), 3));
+                    var x1Func = 1 - (1/Math.pow((1-xOne), 3));
+
+                    //This will get the value in the "Iteration" input field
+                    var nValue2 = document.getElementById("iterationInput2");
+                    var n2 = document.getElementById("iterationInput2").value;
+
+                    //This will get the value in the "Error" input field
+                    var eValue2 = document.getElementById("errorInput2");
+                    var e2 = document.getElementById("errorInput2").value;
+
+                    //This if-else statement will check if all input fields are filled out
+                    if(x_Zero.length != 0 && x_One.length != 0 && (n2.length != 0 || e2.length != 0)){
+
+                        //This if-else statement will check if x0 and x1 are not 1
+                        //if(x_Zero != 1 && x_One != 1){
+
+                            //This if-else statement will check if f(x0) and f(x1) don't have the same results
+                            if(x0Func != x1Func){
+
+                                //This if-else statement will check which stopping criteria is selected by the user
+                                if(n2.length != 0){
+                                    //This will make the table header visible
+                                    document.getElementById("table2").style.visibility = "visible";
+
+                                    //This will delete the "error" header if "iteration" is chosen as the stopping criteria
+                                    var row = document.getElementById("rowHeader2");
+                                    row.deleteCell(7);
+
+                                    //This loop will compute for the results and display them in the table (iteration criteria)
+                                    for(i = 1; i <= n2; i++){
+                                        //Add table row for each iteration
+                                        var tableRow = document.getElementById("table2");
+                                        var add = tableRow.insertRow(-1);
+                                        var column1 = add.insertCell(0);
+                                        var column2 = add.insertCell(1);
+                                        var column3 = add.insertCell(2);
+                                        var column4 = add.insertCell(3);
+                                        var column5 = add.insertCell(4);
+                                        var column6 = add.insertCell(5);
+                                        var column7 = add.insertCell(6);
+                                        column1.innerHTML = i;
+
+                                        //Display the 'x0' & 'x1' in the table
+                                        if(i == 1){
+                                            //Display the 'x0' & 'x1' on the first iteration
+                                            column2.innerHTML = xZero;
+                                            column3.innerHTML = xOne;
+                                        }else{
+                                            //Display the 'x0' & 'x1' on the succeeding iterations
+                                            xZero = xOne;
+                                            column2.innerHTML = xZero;
+                                            xOne = E;
+                                            column3.innerHTML = xOne;
+                                        }
+
+                                        //Compute and display the result for f(xi-1)
+                                        var C = 1 - (1/Math.pow((1-xZero), 3));
+                                        column4.innerHTML = C;
+                                    
+                                        //Compute and display the result for f(xi)
+                                        var D = 1 - (1/Math.pow((1-xOne), 3));
+                                        column5.innerHTML = D;
+
+                                        //Compute and display the result for xi+1
+                                        var E = xOne - D * ((xOne - xZero)/(D-C));
+                                        column6.innerHTML = E;
+
+                                        //Compute and display the result for |xi+1 - xi|
+                                        var err2 = Math.abs(E - xOne);
+                                        column7.innerHTML = err2;
+
+                                        //Display the final error, Cn, and f(Cn)
+                                        if(i == n2 || i < n2){
+                                            document.getElementById("stopCriteria2").innerHTML = "&epsilon;" + " = " + err2;
+                                            document.getElementById("cn2").innerHTML = "Cn = " + E;
+                                            
+                                            var func2 = 1 - (1/Math.pow((1-E), 3));
+                                            document.getElementById("fCn2").innerHTML = "f(Cn) = " + func2;
+                                        }
+
+                                        //This will terminate the iteration if the error becomes 0
+                                        if(err2 == 0 || err2 == "Infinity" || err2 == "-Infinity" || isNaN(err2)){
+                                            break;
+                                        }
+                                    }
+                                }else{
+                                    //This if-else statement will check if f(x0) and f(x1) don't have the same results
+                                    if(x0Func != x1Func){
+                                        //This will make the table header visible
+                                        document.getElementById("table2").style.visibility = "visible";
+
+                                        //This will change the text inside the table header of the errors
+                                        document.getElementById("errorHeader2").innerHTML = "< " + e2;
+
+                                        //This loop will compute for the results and display them in the table (error criteria)
+                                        var x2 = 1;
+                                        var y2 = 1;
+                                        while(x2 > e2){
+                                            //Add table row for each iteration
+                                            var tableRow = document.getElementById("table2");
+                                            var add = tableRow.insertRow(-1);
+                                            var column1 = add.insertCell(0);
+                                            var column2 = add.insertCell(1);
+                                            var column3 = add.insertCell(2);
+                                            var column4 = add.insertCell(3);
+                                            var column5 = add.insertCell(4);
+                                            var column6 = add.insertCell(5);
+                                            var column7 = add.insertCell(6);
+                                            var column8 = add.insertCell(7);
+            
+                                            //Display the 'x0' & 'x1' in the table
+                                            if(y2 == 1){
+                                                //Display the 'x0' & 'x1' on the first iteration
+                                                column2.innerHTML = xZero;
+                                                column3.innerHTML = xOne;
+                                            }else{
+                                                //Display the 'x0' & 'x1' on the succeeding iterations
+                                                xZero = xOne;
+                                                column2.innerHTML = xZero;
+                                                xOne = E;
+                                                column3.innerHTML = xOne;
+                                            }
+
+                                            //Compute and display the result for f(xi-1)
+                                            var C = 1 - (1/Math.pow((1-xZero), 3));
+                                            column4.innerHTML = C;
+                                        
+                                            //Compute and display the result for f(xi)
+                                            var D = 1 - (1/Math.pow((1-xOne), 3));
+                                            column5.innerHTML = D;
+
+                                            //Compute and display the result for xi+1
+                                            var E = xOne - D * ((xOne - xZero)/(D-C));
+                                            column6.innerHTML = E;
+
+                                            //Compute and display the result for |xi+1 - xi|
+                                            var err2 = Math.abs(E - xOne);
+                                            column7.innerHTML = err2;
+                                            x2 = err2;
+                                        
+                                            //This will check if the computed error is less than the desired error of the user
+                                            if(x2 > e2){
+                                                column8.innerHTML = "No";
+                                            }else{
+                                                column8.innerHTML = "Yes";
+                                            }
+
+                                            //Display the final error, Cn, and f(Cn)
+                                            if(x2 < e2){
+                                                document.getElementById("stopCriteria2").innerHTML = "n" + " = " + y2;
+                                                document.getElementById("cn2").innerHTML = "Cn = " + E;
+                                                
+                                                var func2 = 1 - (1/Math.pow((1-E), 3));
+                                                document.getElementById("fCn2").innerHTML = "f(Cn) = " + func2;
+                                            }
+
+                                            //Will increment the number of iteration(n) in the table
+                                            column1.innerHTML = y2++;
+                                        }
+                                    }
+                                }
+                            }else{
+                                //Display a text if f(x0) and f(x1) are equal to each other
+                                document.getElementById("table2").style.display = "none";
+                                document.getElementById("invalid2").innerHTML = "f(x" + "0".sub() + ") and f(x" + "1".sub() + ") must not be equal to each other";
+                            }
+                        /*}else{
+                            //Display a text if x0 and x1 are 1
+                            document.getElementById("table2").style.display = "none";
+                            document.getElementById("invalid2").innerHTML = "x" + "0".sub() + " or x" + "1".sub() + " must not be 1";
+                        } */   
+                    }else{
+                        //Display a text if some input fields are not filled out
+                        document.getElementById("table2").style.display = "none";
+                        document.getElementById("invalid2").innerHTML = "Make sure to fill out all input fields";
+                    } 
+                }
+
+                //Part 2
+                //This will confirm the selected root-finding method of the user
+                function methodOpt_p2(){
+                    var rootMethod2 = document.getElementById("methodList_p2");
+                    var methodValue2 = rootMethod2.options[rootMethod2.selectedIndex].value;
+                    
+                    if (methodValue2 == "bisectionMethod2"){
+                        //If the user selected "Bisection", the bisection form will be shown
+                        document.getElementById("bisectionForm2").style.visibility = "visible";
+                        document.getElementById("bisectionForm2").style.display = "block";
+                        document.getElementById("secantForm2").style.visibility = "hidden";
+                        document.getElementById("secantForm2").style.display = "none";
+                    }else if(methodValue2 == "secantMethod2"){
+                        //If the user selected "Secant", the secant form will be shown
+                        document.getElementById("secantForm2").style.visibility = "visible";
+                        document.getElementById("secantForm2").style.display = "block";
+                        document.getElementById("bisectionForm2").style.visibility = "hidden";
+                        document.getElementById("bisectionForm2").style.display = "none";
+                    }
+                }
+                
+                //This will enable the user to input the number of iteration if he/she clicked the "Iteration" option 
+                function n_p2(){
+                    document.getElementById("iterationInput_p2").disabled = false;
+                    document.getElementById("iterationInput_p2").focus();
+                    document.getElementById("iterationInput2_p2").disabled = false;
+                    document.getElementById("iterationInput2_p2").focus();
+                    document.getElementById("errorInput_p2").disabled = true;
+                    document.getElementById("errorInput_p2").value = "";
+                    document.getElementById("errorInput2_p2").disabled = true;
+                    document.getElementById("errorInput2_p2").value = "";
+                }
+ 
+                //This will enable the user to input the desired error if he/she clicked the "Error" option
+                function e_p2(){
+                    document.getElementById("errorInput_p2").disabled = false;
+                    document.getElementById("errorInput_p2").focus();
+                    document.getElementById("errorInput2_p2").disabled = false;
+                    document.getElementById("errorInput2_p2").focus();
+                    document.getElementById("iterationInput_p2").disabled = true;
+                    document.getElementById("iterationInput_p2").value = "";
+                    document.getElementById("iterationInput2_p2").disabled = true;
+                    document.getElementById("iterationInput2_p2").value = "";
+                }
+
+                //This will automatically click the calculate button when enter key is pressed (iteration - bisection)
+                var iterate_p2 = document.getElementById("iterationInput_p2");
+                    iterate_p2.addEventListener("keypress", function(event) {
+                        if (event.key === "Enter") {
+                            document.getElementById("calcBtn_p2").click();
+                        }
+                    });
+
+                //This will automatically click the calculate button when enter key is pressed (iteration - secant)
+                var iterate2_p2 = document.getElementById("iterationInput2_p2");
+                    iterate2_p2.addEventListener("keypress", function(event) {
+                        if (event.key === "Enter") {
+                            document.getElementById("calcBtn2_p2").click();
+                        }
+                    });
+
+                //This will automatically click the calculate button when enter key is pressed (error - bisection)
+                var errorInt_p2 = document.getElementById("errorInput_p2");
+                    errorInt_p2.addEventListener("keypress", function(event) {
+                        if (event.key === "Enter") {
+                            document.getElementById("calcBtn_p2").click();
+                        }
+                    });
+
+                //This will automatically click the calculate button when enter key is pressed (error - secant)
+                var errorInt2_p2 = document.getElementById("errorInput2_p2");
+                    errorInt2_p2.addEventListener("keypress", function(event) {
+                        if (event.key === "Enter") {
+                            document.getElementById("calcBtn2_p2").click();
+                        }
+                    });
+                
+                //For bisection part only
+                function calculate_p2(){
+                    //This will get the function entered by the user
+                    var userFunc = document.getElementById("inputFunc").value;
+
+                    if(userFunc.includes("^")){
+                        //This will change the '^' to '**' to make the computation work
+                        var newFunc = userFunc.replace(/\^/g, '**');
+                    }
+
+                    //This will get the 'a' & 'b' from the user's input 
+                    var intrvl2 = document.getElementById("interval_p2").value;
+                    var aInput2 = intrvl2.split(',')[0];
+                    var aVal2 = aInput2.split('[')[1];
+                    var a2 = Number(aVal2);
+                    var bInput2 = intrvl2.split(',')[1];
+                    var bVal2 = bInput2.split(']')[0];
+                    var b2 = Number(bVal2);
+
+                    //This will compute for f(a) and f(b) by substituting 'a' & 'b' to the function
+                    var aFunc_p2 = newFunc.replace(/x/g, a2);
+                    var bFunc_p2 = newFunc.replace(/x/g, b2);
+
+                    //This will check if f(a) contains consecutive negative signs (--)
+                    if(aFunc_p2.includes("--")){
+                        //If yes, this will change the (--) to '+' sign
+                        var aFuncp2 = aFunc_p2.replace(/--/g, "+");
+                        var aFunc2 = Function("return " + aFuncp2)();
+                    }else{
+                        var aFunc2 = Function("return " + aFunc_p2)();
+                    } 
+
+                    //This will check if f(b) contains consecutive negative signs (--)
+                    if(bFunc_p2.includes("--")){
+                        //If yes, this will change the (--) to '+' sign
+                        var bFuncp2 = bFunc_p2.replace(/--/g, "+");
+                        var bFunc2 = Function("return " + bFuncp2)();
+                    }else{
+                        var bFunc2 = Function("return " + bFunc_p2)(); 
+                    }
+
+                    //This will get the value in the "Iteration" input field
+                    var nValue_p2 = document.getElementById("iterationInput_p2");
+                    var n_p2 = document.getElementById("iterationInput_p2").value;
+
+                    //This will get the value in the "Error" input field
+                    var eValue_p2 = document.getElementById("errorInput_p2");
+                    var e_p2 = document.getElementById("errorInput_p2").value;
+
+                    //This if-else statement will check if all input fields are filled out
+                    if(userFunc.length != 0 && intrvl2.length != 0 && (n_p2.length != 0 || e_p2.length != 0)){
+
+                        //This if-else statement will check if f(a) and f(b) have opposite signs 
+                        if(aFunc2 * bFunc2 < 0){
+
+                            //This if-else statement will check which stopping criteria is selected by the user
+                            if(n_p2.length != 0){
+                                //This will make the table header visible
+                                document.getElementById("table_p2").style.visibility = "visible";
+
+                                //This will delete the "error" header if "iteration" is chosen as the stopping criteria
+                                var row2 = document.getElementById("rowHeader_p2");
+                                row2.deleteCell(5);
+
+                                //This loop will compute for the results and display them in the table (iteration criteria)
+                                for(i = 1; i <= n_p2; i++){
+                                    //Add table row for each iteration
+                                    var tableRow2 = document.getElementById("table_p2");
+                                    var add2 = tableRow2.insertRow(-1);
+                                    var column1_p2 = add2.insertCell(0);
+                                    var column2_p2 = add2.insertCell(1);
+                                    var column3_p2 = add2.insertCell(2);
+                                    var column4_p2 = add2.insertCell(3);
+                                    var column5_p2 = add2.insertCell(4);
+                                    var column6_p2 = add2.insertCell(5);
+                                    column1_p2.innerHTML = i;
+
+                                    //Display the 'a' & 'b' in the table
+                                    if(i == 1){
+                                        //Display the 'a' & 'b' on the first iteration
+                                        column2_p2.innerHTML = a2;
+                                        column3_p2.innerHTML = b2;
+                                    }else{
+                                        //Display the 'a' & 'b' on the succeeding iterations
+                                        if(aFunc2 * func_p2 > 0){
+                                            a2 = c2;
+                                            column2_p2.innerHTML = a2;
+                                            column3_p2.innerHTML = b2;
+                                        }else{
+                                            b2 = c2;
+                                            column3_p2.innerHTML = b2;
+                                            column2_p2.innerHTML = a2;
+                                        }
+                                    }
+                                
+                                    //Compute and display the 'c' in the table
+                                    var c2 = (a2 + b2)/2;
+                                    column4_p2.innerHTML = c2;
+                                
+                                    //Compute and display the result for |a-b|
+                                    var err_p2 = Math.abs(a2-b2);
+                                    column5_p2.innerHTML = err_p2;
+
+                                    //Compute and display the result for f(c)
+                                    var function_p2 = newFunc.replace(/x/g, c2);
+                                    
+                                    //This will check if f(c) contains consecutive negative signs (--)
+                                    if(function_p2.includes("--")){
+                                        //If yes, this will change the (--) to '+' sign
+                                        var functionp2 = function_p2.replace(/--/g, "+");
+                                        var func_p2 = Function("return " + functionp2)();
+                                    }else{
+                                        var func_p2= Function("return " + function_p2)();
+                                    } 
+                                    column6_p2.innerHTML = func_p2;
+
+                                    //Display the final error, Cn, and f(Cn)
+                                    if(i == n_p2){
+                                        document.getElementById("stopCriteria_p2").innerHTML = "&epsilon;" + " = " + err_p2;
+                                        document.getElementById("cn_p2").innerHTML = "Cn = " + c2;
+                                        document.getElementById("fCn_p2").innerHTML = "f(Cn) = " + func_p2;
+                                    }
+
+                                    //This will terminate the iteration if the error becomes 0
+                                    if(err_p2 == 0){
+                                        break;
+                                    }
+                                }
+                            }else{
+                                //This will make the table header visible
+                                document.getElementById("table_p2").style.visibility = "visible";
+
+                                //This will change the text inside the table header of the errors
+                                document.getElementById("errorHeader_p2").innerHTML = "< " + e_p2;
+
+                                //This loop will compute for the results and display them in the table (error criteria)
+                                var x_p2 = 1;
+                                var y_p2 = 1;
+                                while(x_p2 > e_p2){
+                                    //Add table row for each iteration
+                                    var tableRow2 = document.getElementById("table_p2");
+                                    var add2 = tableRow2.insertRow(-1);
+                                    var column1_p2 = add2.insertCell(0);
+                                    var column2_p2 = add2.insertCell(1);
+                                    var column3_p2 = add2.insertCell(2);
+                                    var column4_p2 = add2.insertCell(3);
+                                    var column5_p2 = add2.insertCell(4);
+                                    var column6_p2 = add2.insertCell(5);
+                                    var column7_p2 = add2.insertCell(6);
+    
+                                    //Display the 'a' & 'b' in the table
+                                    if(y_p2 == 1){
+                                        //Display the 'a' & 'b' on the first iteration
+                                        column2_p2.innerHTML = a2;
+                                        column3_p2.innerHTML = b2;
+                                    }else{
+                                        //Display the 'a' & 'b' on the succeeding iterations
+                                        if(aFunc2 * func_p2 > 0){
+                                            a2 = c2;
+                                            column2_p2.innerHTML = a2;
+                                            column3_p2.innerHTML = b2;
+                                        }else{
+                                            b2 = c2;
+                                            column3_p2.innerHTML = b2;
+                                            column2_p2.innerHTML = a2;
+                                        }
+                                    }
+
+                                    //Compute and display the 'c' in the table
+                                    var c2 = (a2 + b2)/2;
+                                    column4_p2.innerHTML = c2;
+                                
+                                    //Compute and display the result for |a-b|
+                                    var err_p2 = Math.abs(a2-b2);
+                                    column5_p2.innerHTML = err_p2;
+                                    x_p2 = err_p2;
+                                
+                                    //This will check if the computed error is less than the desired error of the user
+                                    if(x_p2 > e_p2){
+                                        column6_p2.innerHTML = "No";
+                                    }else{
+                                        column6_p2.innerHTML = "Yes";
+                                    }
+
+                                    //Compute and display the result for f(c)
+                                    var function_p2 = newFunc.replace(/x/g, c2);
+                                    
+                                    //This will check if f(c) contains consecutive negative signs (--)
+                                    if(function_p2.includes("--")){
+                                        //If yes, this will change the (--) to '+' sign
+                                        var functionp2 = function_p2.replace(/--/g, "+");
+                                        var func_p2 = Function("return " + functionp2)();
+                                    }else{
+                                        var func_p2= Function("return " + function_p2)();
+                                    } 
+                                    column7_p2.innerHTML = func_p2;
+
+                                    //Display the final error, Cn, and f(Cn)
+                                    if(x_p2 < e_p2){
+                                        document.getElementById("stopCriteria_p2").innerHTML = "n = " + y_p2;
+                                        document.getElementById("cn_p2").innerHTML = "Cn = " + c2;
+                                        document.getElementById("fCn_p2").innerHTML = "f(Cn) = " + func_p2;
+                                    }
+
+                                    //Will increment the number of iteration(n) in the table
+                                    column1_p2.innerHTML = y_p2++;
+                                }
+                            }
+                        }else{
+                            //Display a text if f(a) and f(b) have same signs
+                            document.getElementById("table_p2").style.display = "none";
+                            document.getElementById("invalid_p2").innerHTML = "f(a) and f(b) must have opposite signs";
+                        }
+                    }else{
+                        //Display a text if some input fields are not filled out
+                        document.getElementById("table_p2").style.display = "none";
+                        document.getElementById("invalid_p2").innerHTML = "Make sure to fill out all input fields";
+                    }
+                }
+
+                //For secant part only
+                function calculate2_p2(){
+                    //This will get the function entered by the user
+                    var userFunc = document.getElementById("inputFunc").value;
+                    
+                    if(userFunc.includes("^")){
+                        //This will change the '^' to '**' 
+                        var newFunc = userFunc.replace(/\^/g, '**');
+                    }
+
+                    //This will get the 'x0' & 'x1' from the user's input 
+                    var x_Zero2 = document.getElementById("x0_p2").value;
+                    var xZero2 = Number(x_Zero2);
+                    var x_One2 = document.getElementById("x1_p2").value;
+                    var xOne2 = Number(x_One2);
+
+                    //This will compute for f(x0) and f(x1)
+                    var x0Func_p2 = newFunc.replace(/x/g, xZero2);
+                    var x1Func_p2 = newFunc.replace(/x/g, xOne2);
+
+                    //This will check if f(x0) contains consecutive negative signs (--)
+                    if(x0Func_p2.includes("--")){
+                        //If yes, this will change the (--) to '+' sign
+                        var x0Funcp2 = x0Func_p2.replace(/--/g, "+");
+                        var x0Func2 = Function("return " + x0Funcp2)();
+                    }else{
+                        var x0Func2 = Function("return " + x0Func_p2)();
+                    } 
+
+                    //This will check if f(x1) contains consecutive negative signs (--)
+                    if(x1Func_p2.includes("--")){
+                        //If yes, this will change the (--) to '+' sign
+                        var x1Funcp2 = x1Func_p2.replace(/--/g, "+");
+                        var x1Func2 = Function("return " + x1Funcp2)();
+                    }else{
+                        var x1Func2 = Function("return " + x1Func_p2)(); 
+                    }
+
+                    //This will get the value in the "Iteration" input field
+                    var nValue2_p2 = document.getElementById("iterationInput2_p2");
+                    var n2_p2 = document.getElementById("iterationInput2_p2").value;
+
+                    //This will get the value in the "Error" input field
+                    var eValue2_p2 = document.getElementById("errorInput2_p2");
+                    var e2_p2 = document.getElementById("errorInput2_p2").value;
+
+                    //This if-else statement will check if all input fields are filled out
+                    if(userFunc.length != 0 && x_Zero2.length != 0 && x_One2.length != 0 && (n2_p2.length != 0 || e2_p2.length != 0)){
+
+                        //This if-else statement will check if f(x0) and f(x1) don't have the same results
+                        if(x0Func2 != x1Func2){
+
+                            //This if-else statement will check which stopping criteria is selected by the user
+                            if(n2_p2.length != 0){
+                                //This will make the table header visible
+                                document.getElementById("table2_p2").style.visibility = "visible";
+
+                                //This will delete the "error" header if "iteration" is chosen as the stopping criteria
+                                var row2 = document.getElementById("rowHeader2_p2");
+                                row2.deleteCell(7);
+
+                                //This loop will compute for the results and display them in the table (iteration criteria)
+                                for(i = 1; i <= n2_p2; i++){
+                                    //Add table row for each iteration
+                                    var tableRow2 = document.getElementById("table2_p2");
+                                    var add2 = tableRow2.insertRow(-1);
+                                    var column1_p2 = add2.insertCell(0);
+                                    var column2_p2 = add2.insertCell(1);
+                                    var column3_p2 = add2.insertCell(2);
+                                    var column4_p2 = add2.insertCell(3);
+                                    var column5_p2 = add2.insertCell(4);
+                                    var column6_p2 = add2.insertCell(5);
+                                    var column7_p2 = add2.insertCell(6);
+                                    column1_p2.innerHTML = i;
+
+                                    //Display the 'x0' & 'x1' in the table
+                                    if(i == 1){
+                                        //Display the 'x0' & 'x1' on the first iteration
+                                        column2_p2.innerHTML = xZero2;
+                                        column3_p2.innerHTML = xOne2;
+                                    }else{
+                                        //Display the 'x0' & 'x1' on the succeeding iterations    
+                                        xZero2 = xOne2;
+                                        column2_p2.innerHTML = xZero2;
+                                        xOne2 = E2;
+                                        column3_p2.innerHTML = xOne2;
+                                    }
+
+                                    //Compute and display the result for f(xi-1)
+                                    var C_p2 = newFunc.replace(/x/g, xZero2);
+
+                                    //This will check if f(xi-1) contains consecutive negative signs (--)
+                                    if(C_p2.includes("--")){
+                                        //If yes, this will change the (--) to '+' sign
+                                        var Cp2 = C_p2.replace(/--/g, "+");
+                                        var C2 = Function("return " + Cp2)();
+                                    }else{
+                                        var C2 = Function("return " + C_p2)();
+                                    }
+                                    column4_p2.innerHTML = C2;
+
+                                    //Compute and display the result for f(xi)
+                                    var D_p2 = newFunc.replace(/x/g, xOne2);
+
+                                    //This will check if f(xi) contains consecutive negative signs (--)
+                                    if(D_p2.includes("--")){
+                                        //If yes, this will change the (--) to '+' sign
+                                        var Dp2 = D_p2.replace(/--/g, "+");
+                                        var D2 = Function("return " + Dp2)();
+                                    }else{
+                                        var D2 = Function("return " + D_p2)();
+                                    }
+                                    column5_p2.innerHTML = D2;
+
+                                    //Compute and display the result for xi+1
+                                    var E2 = xOne2 - D2 * ((xOne2 - xZero2)/(D2-C2));
+                                    column6_p2.innerHTML = E2;
+
+                                    //Compute and display the result for |xi+1 - xi|
+                                    var err2_p2 = Math.abs(E2 - xOne2);
+                                    column7_p2.innerHTML = err2_p2;
+
+                                    //Display the final error, Cn, and f(Cn)
+                                    if(i == n2_p2 || i < n2_p2){
+                                        document.getElementById("stopCriteria2_p2").innerHTML = "&epsilon;" + " = " + err2_p2;
+                                        document.getElementById("cn2_p2").innerHTML = "Cn = " + E2;
+                                        
+                                        var func2Part2 = newFunc.replace(/x/g, E2);
+                                        //This will check if f(Cn) contains consecutive negative signs (--)
+                                        if(func2Part2.includes("--")){
+                                            //If yes, this will change the (--) to '+' sign
+                                            var func2p2 = func2Part2.replace(/--/g, "+");
+                                            var func2_p2 = Function("return " + func2p2)();
+                                        }else{
+                                            var func2_p2 = Function("return " + func2Part2)();
+                                        }
+                                        document.getElementById("fCn2_p2").innerHTML = "f(Cn) = " + func2_p2;
+                                    }
+
+                                    //This will terminate the iteration if the error becomes 0
+                                    if(err2_p2 == 0){
+                                        break;
+                                    }
+                                }
+                            }else{
+                                //This if-else statement will check if f(x0) and f(x1) don't have the same results
+                                if(x0Func2 != x1Func2){
+                                    //This will make the table header visible
+                                    document.getElementById("table2_p2").style.visibility = "visible";
+
+                                    //This will change the text inside the table header of the errors
+                                    document.getElementById("errorHeader2_p2").innerHTML = "< " + e2_p2;
+
+                                    //This loop will compute for the results and display them in the table (error criteria)
+                                    var x2_p2 = 1;
+                                    var y2_p2 = 1;
+                                    while(x2_p2 > e2_p2){
+                                        //Add table row for each iteration
+                                        var tableRow2 = document.getElementById("table2_p2");
+                                        var add2 = tableRow2.insertRow(-1);
+                                        var column1_p2 = add2.insertCell(0);
+                                        var column2_p2 = add2.insertCell(1);
+                                        var column3_p2 = add2.insertCell(2);
+                                        var column4_p2 = add2.insertCell(3);
+                                        var column5_p2 = add2.insertCell(4);
+                                        var column6_p2 = add2.insertCell(5);
+                                        var column7_p2 = add2.insertCell(6);
+                                        var column8_p2 = add2.insertCell(7);
+        
+                                        //Display the 'x0' & 'x1' in the table
+                                        if(y2_p2 == 1){
+                                            //Display the 'x0' & 'x1' on the first iteration
+                                            column2_p2.innerHTML = xZero2;
+                                            column3_p2.innerHTML = xOne2;
+                                        }else{
+                                            //Display the 'x0' & 'x1' on the succeeding iterations
+                                            xZero2 = xOne2;
+                                            column2_p2.innerHTML = xZero2;
+                                            xOne2 = E2;
+                                            column3_p2.innerHTML = xOne2;
+                                        }
+
+                                        //Compute and display the result for f(xi-1)
+                                        var C_p2 = newFunc.replace(/x/g, xZero2);
+
+                                        //This will check if f(xi-1) contains consecutive negative signs (--)
+                                        if(C_p2.includes("--")){
+                                            //If yes, this will change the (--) to '+' sign
+                                            var Cp2 = C_p2.replace(/--/g, "+");
+                                            var C2 = Function("return " + Cp2)();
+                                        }else{
+                                            var C2 = Function("return " + C_p2)();
+                                        }
+                                        column4_p2.innerHTML = C2;
+                                    
+                                        //Compute and display the result for f(xi)
+                                        var D_p2 = newFunc.replace(/x/g, xOne2);
+
+                                        //This will check if f(xi) contains consecutive negative signs (--)
+                                        if(D_p2.includes("--")){
+                                            //If yes, this will change the (--) to '+' sign
+                                            var Dp2 = D_p2.replace(/--/g, "+");
+                                            var D2 = Function("return " + Dp2)();
+                                        }else{
+                                            var D2 = Function("return " + D_p2)();
+                                        }
+                                        column5_p2.innerHTML = D2;
+
+                                        //Compute and display the result for xi+1
+                                        var E2 = xOne2 - D2 * ((xOne2 - xZero2)/(D2-C2));
+                                        column6_p2.innerHTML = E2;
+
+                                        //Compute and display the result for |xi+1 - xi|
+                                        var err2_p2 = Math.abs(E2 - xOne2);
+                                        column7_p2.innerHTML = err2_p2;
+                                        x2_p2 = err2_p2;
+                                    
+                                        //This will check if the computed error is less than the desired error of the user
+                                        if(x2_p2 > e2_p2){
+                                            column8_p2.innerHTML = "No";
+                                        }else{
+                                            column8_p2.innerHTML = "Yes";
+                                        }
+
+                                        //Display the final error, Cn, and f(Cn)
+                                        if(x2_p2 < e2_p2){
+                                            document.getElementById("stopCriteria2_p2").innerHTML = "n" + " = " + y2_p2;
+                                            document.getElementById("cn2_p2").innerHTML = "Cn = " + E2;
+                                            
+                                            var func2Part2 = newFunc.replace(/x/g, E2);
+                                            //This will check if f(Cn) contains consecutive negative signs (--)
+                                            if(func2Part2.includes("--")){
+                                                //If yes, this will change the (--) to '+' sign
+                                                var func2p2 = func2Part2.replace(/--/g, "+");
+                                                var func2_p2 = Function("return " + func2p2)();
+                                            }else{
+                                                var func2_p2 = Function("return " + func2Part2)();
+                                            }
+                                            document.getElementById("fCn2_p2").innerHTML = "f(Cn) = " + func2_p2;
+                                        }
+
+                                        //Will increment the number of iteration(n) in the table
+                                        column1_p2.innerHTML = y2_p2++;
+                                    }
+                                }
+                            }
+                        }else{
+                            //Display a text if f(x0) and f(x1) are equal to each other
+                            document.getElementById("table2_p2").style.display = "none";
+                            document.getElementById("invalid2_p2").innerHTML = "f(x" + "0".sub() + ") and f(x" + "1".sub() + ") must not be equal to each other";
+                        }  
+                    }else{
+                        //Display a text if some input fields are not filled out
+                        document.getElementById("table2_p2").style.display = "none";
+                        document.getElementById("invalid2_p2").innerHTML = "Make sure to fill out all input fields";
+                    }
+                }
+            </script>
+        </body>
+</html>
